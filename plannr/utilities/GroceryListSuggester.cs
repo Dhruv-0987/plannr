@@ -22,7 +22,7 @@ namespace plannr.utilities
                     {"Pantry", 0.1 * budget}
 					// Adjust the budget splits based on your preferences
 				};
-
+            
             List<Product> suggestedProducts = new List<Product>();
             Random rand = new Random();
 
