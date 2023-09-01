@@ -1,0 +1,3 @@
+/Users/dhruvmathur/Projects/plannr/UserDataAccess/bin/Release/net7.0/publish/UserDataAccess.dll
+/Users/dhruvmathur/Projects/plannr/UserDataAccess/bin/Release/net7.0/publish/UserDataAccess.deps.json
+/Users/dhruvmathur/Projects/plannr/UserDataAccess/bin/Release/net7.0/publish/UserDataAccess.pdb

@@ -1,0 +1,12 @@
+/Users/dhruvmathur/Projects/plannr/UserDataAccess/bin/Release/net7.0/UserDataAccess.deps.json
+/Users/dhruvmathur/Projects/plannr/UserDataAccess/bin/Release/net7.0/UserDataAccess.dll
+/Users/dhruvmathur/Projects/plannr/UserDataAccess/bin/Release/net7.0/UserDataAccess.pdb
+/Users/dhruvmathur/Projects/plannr/UserDataAccess/obj/Release/net7.0/UserDataAccess.csproj.AssemblyReference.cache
+/Users/dhruvmathur/Projects/plannr/UserDataAccess/obj/Release/net7.0/UserDataAccess.GeneratedMSBuildEditorConfig.editorconfig
+/Users/dhruvmathur/Projects/plannr/UserDataAccess/obj/Release/net7.0/UserDataAccess.AssemblyInfoInputs.cache
+/Users/dhruvmathur/Projects/plannr/UserDataAccess/obj/Release/net7.0/UserDataAccess.AssemblyInfo.cs
+/Users/dhruvmathur/Projects/plannr/UserDataAccess/obj/Release/net7.0/UserDataAccess.csproj.CoreCompileInputs.cache
+/Users/dhruvmathur/Projects/plannr/UserDataAccess/obj/Release/net7.0/UserDataAccess.dll
+/Users/dhruvmathur/Projects/plannr/UserDataAccess/obj/Release/net7.0/refint/UserDataAccess.dll
+/Users/dhruvmathur/Projects/plannr/UserDataAccess/obj/Release/net7.0/UserDataAccess.pdb
+/Users/dhruvmathur/Projects/plannr/UserDataAccess/obj/Release/net7.0/ref/UserDataAccess.dll
