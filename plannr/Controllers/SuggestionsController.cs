@@ -27,8 +27,10 @@ namespace plannr.Controllers
         }
 
         [HttpPost("suggestions")]
-        public async Task<ActionResult<List<Product>>> GetSuggestedGroceries([FromBody] GrocerySuggestionsDTO request)
+        public async Task<ActionResult<GrocerySuggestionsResponseDTO>> GetSuggestedGroceries([FromBody] GrocerySuggestionsDTO request)
         {
+            var response = new GrocerySuggestionsResponseDTO();
+
             if (request.WeeklyBudget <= 0 || request.FamilySize <= 0)
             {
                 return BadRequest("Weekly budget and family size must be positive values.");
@@ -43,9 +45,10 @@ namespace plannr.Controllers
                 .ToDictionary(g => g.Key, g => g.Select(p => p.ProductName).ToList());
 
             GroceryListSuggester suggester = new GroceryListSuggester();
-            var suggestedProducts = suggester.SuggestGroceries(allProducts, request.WeeklyBudget, request.FamilySize);
+            response.Products = suggester.SuggestGroceries(allProducts, request.WeeklyBudget, request.FamilySize);
+            response.TotalCost = Math.Round(response.Products.Sum(p => p.PricePerUnit), 2);
 
-            return Ok(suggestedProducts);
+            return Ok(response);
         }
 
     }
