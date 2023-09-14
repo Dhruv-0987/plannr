@@ -16,9 +16,15 @@ namespace plannr.DatabaseContext
             modelBuilder.Entity<Product>()
                 .Property(p => p.ProductId)
                 .ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<Recipe>()
+                .Property(p => p.Id)
+                .ValueGeneratedOnAdd();
         }
 
         public DbSet<Product> Products { get; set; }
+
+        public DbSet<Recipe> Recipes { get; set; }
 	}
 }
 

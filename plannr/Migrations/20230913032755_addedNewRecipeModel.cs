@@ -5,7 +5,7 @@
 namespace plannr.Migrations
 {
     /// <inheritdoc />
-    public partial class addedPrimaryKeyProduct : Migration
+    public partial class addedNewRecipeModel : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

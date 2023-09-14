@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Cors;
+﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using plannr.DatabaseContext;
@@ -14,7 +10,7 @@ using plannr.utilities;
 
 namespace plannr.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/suggestions")]
     [EnableCors("PlannrPolicy")]
     [ApiController]
     public class SuggestionsController : Controller

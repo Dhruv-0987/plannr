@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Formats.Asn1;
-using System.Globalization;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Globalization;
 using CsvHelper;
 using Microsoft.AspNetCore.Mvc;
 using plannr.DatabaseContext;
@@ -15,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace plannr.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/product")]
     [ApiController]
     public class ProductController : Controller
     {
@@ -68,9 +63,6 @@ namespace plannr.Controllers
             _context.AddRange(distinctProducts);
             _context.SaveChanges();
         }
-
-        
-
     }
 }
 
