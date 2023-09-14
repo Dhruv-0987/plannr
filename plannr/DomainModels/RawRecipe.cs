@@ -9,54 +9,75 @@ namespace plannr.DomainModels
 	{
         [Key]
         public int Id { get; set; }
-
-        public string Name { get; set; }
-
-        public string Minutes { get; set; }
-
-        public string ContributerId { get; set; }
-
-        private string TagsJson { get; set; }
-
-        private string NutritionJson { get; set; }
-
-        public int NumberOfSteps { get; set; }
-
-        public int NumberOfIngradients { get; set; }
-
-        private string StepsJson { get; set; }
-
-        public string Desc { get; set; }
-
-        private string IngredientsJson { get; set; }
-
-        [NotMapped]
-        public List<string> Tags
-        {
-            get => TagsJson == null ? null : JsonSerializer.Deserialize<List<string>>(TagsJson);
-            set => TagsJson = JsonSerializer.Serialize(value);
-        }
-
-        [NotMapped]
-        public List<string> Nutrition
-        {
-            get => NutritionJson == null ? null : JsonSerializer.Deserialize<List<string>>(NutritionJson);
-            set => NutritionJson = JsonSerializer.Serialize(value);
-        }
-
-        [NotMapped]
-        public List<string> Steps
-        {
-            get => StepsJson == null ? null : JsonSerializer.Deserialize<List<string>>(StepsJson);
-            set => StepsJson = JsonSerializer.Serialize(value);
-        }
+        public string RecipeTitle { get; set; }
+        public int Servings { get; set; }
+        public double Protein { get; set; }
+        public double Energy { get; set; }
+        public double Carbohydrates { get; set; }
+        public double TotalFats { get; set; }
+        public string ImageUrl { get; set; }
+        public double Cost { get; set; }
+        public string Cuisine { get; set; }
+        public string Type { get; set; }
 
         [NotMapped]
         public List<string> Ingredients
         {
-            get => IngredientsJson == null ? null : JsonSerializer.Deserialize<List<string>>(IngredientsJson);
-            set => IngredientsJson = JsonSerializer.Serialize(value);
+            get
+            {
+                try
+                {
+                    return string.IsNullOrEmpty(_ingredientsJson)
+                        ? null
+                        : JsonSerializer.Deserialize<List<string>>(_ingredientsJson);
+                }
+                catch (JsonException)
+                {
+                    // Handle or log the error as desired.
+                    // For instance, return an empty list, or a list with an error message, or null.
+                    return new List<string> { "Error parsing JSON" };
+                }
+            }
+            set => _ingredientsJson = JsonSerializer.Serialize(value);
         }
+
+        private string _ingredientsJson;  // backing field for IngredientsJson
+
+        public string IngredientsJson
+        {
+            get => _ingredientsJson;
+            set => _ingredientsJson = value;
+        }
+
+        [NotMapped]
+        public List<string> Instructions
+        {
+            get
+            {
+                try
+                {
+                    return string.IsNullOrEmpty(_instructionsJson)
+                        ? null
+                        : JsonSerializer.Deserialize<List<string>>(_instructionsJson);
+                }
+                catch (JsonException)
+                {
+                    // Handle or log the error as desired.
+                    // For instance, return an empty list, or a list with an error message, or null.
+                    return new List<string> { "Error parsing JSON" };
+                }
+            }
+            set => _instructionsJson = JsonSerializer.Serialize(value);
+        }
+
+        private string _instructionsJson;  // backing field for InstructionsJson
+
+        public string InstructionsJson
+        {
+            get => _instructionsJson;
+            set => _instructionsJson = value;
+        }
+
 
         public RawRecipe()
 		{

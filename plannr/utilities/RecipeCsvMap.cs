@@ -6,7 +6,7 @@ using plannr.DomainModels;
 
 namespace plannr.utilities
 {
-	public class RecipeCsvMap: ClassMap<Recipe>
+	public class RecipeCsvMap: ClassMap<RawRecipe>
 	{
 		public RecipeCsvMap()
 		{

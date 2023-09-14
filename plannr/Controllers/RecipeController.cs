@@ -38,14 +38,23 @@ namespace plannr.Controllers
 
             csv.Context.RegisterClassMap<RecipeCsvMap>();
 
-            var recipes = csv.GetRecords<Recipe>().ToList();
+            var recipes = csv.GetRecords<RawRecipe>().ToList();
            
             // Assuming _context is your database context
-            _context.Recipes.AddRange(recipes);
+            _context.RawRecipes.AddRange(recipes);
             await _context.SaveChangesAsync();
 
             return Ok("Data imported successfully");
         }
+
+        [HttpGet]
+        public async Task<ActionResult<List<RawRecipe>>> GetAllRecipes()
+        {
+            var recipies = await _context.RawRecipes.ToListAsync();
+
+            return recipies;
+        }
+
 
         [HttpGet("recommend")]
         public async Task<ActionResult<List<Recipe>>> GetRecommendedRecipes(double budget, int numberOfPeople)

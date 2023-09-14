@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using plannr.DatabaseContext;
 
@@ -11,9 +12,11 @@ using plannr.DatabaseContext;
 namespace plannr.Migrations
 {
     [DbContext(typeof(PlannrDbContext))]
-    partial class PlannrDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230914082450_Raw_recipe_added")]
+    partial class Raw_recipe_added
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -82,47 +85,27 @@ namespace plannr.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<double>("Carbohydrates")
-                        .HasColumnType("float");
-
-                    b.Property<double>("Cost")
-                        .HasColumnType("float");
-
-                    b.Property<string>("Cuisine")
+                    b.Property<string>("ContributerId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("Energy")
-                        .HasColumnType("float");
-
-                    b.Property<string>("ImageUrl")
+                    b.Property<string>("Desc")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("IngredientsJson")
+                    b.Property<string>("Minutes")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("InstructionsJson")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("Protein")
-                        .HasColumnType("float");
-
-                    b.Property<string>("RecipeTitle")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Servings")
+                    b.Property<int>("NumberOfIngradients")
                         .HasColumnType("int");
 
-                    b.Property<double>("TotalFats")
-                        .HasColumnType("float");
-
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("NumberOfSteps")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

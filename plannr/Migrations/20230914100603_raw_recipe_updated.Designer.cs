@@ -12,8 +12,8 @@ using plannr.DatabaseContext;
 namespace plannr.Migrations
 {
     [DbContext(typeof(PlannrDbContext))]
-    [Migration("20230913032755_addedNewRecipeModel")]
-    partial class addedNewRecipeModel
+    [Migration("20230914100603_raw_recipe_updated")]
+    partial class raw_recipe_updated
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -85,31 +85,51 @@ namespace plannr.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("ContributerId")
+                    b.Property<double>("Carbohydrates")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Cost")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Cuisine")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Desc")
+                    b.Property<double>("Energy")
+                        .HasColumnType("float");
+
+                    b.Property<string>("ImageUrl")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Minutes")
+                    b.Property<string>("IngredientsJson")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("InstructionsJson")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("NumberOfIngradients")
+                    b.Property<double>("Protein")
+                        .HasColumnType("float");
+
+                    b.Property<string>("RecipeTitle")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Servings")
                         .HasColumnType("int");
 
-                    b.Property<int>("NumberOfSteps")
-                        .HasColumnType("int");
+                    b.Property<double>("TotalFats")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("RawRecipe");
+                    b.ToTable("RawRecipes");
                 });
 
             modelBuilder.Entity("plannr.DomainModels.Recipe", b =>

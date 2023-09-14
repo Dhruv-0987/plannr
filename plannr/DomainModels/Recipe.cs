@@ -16,6 +16,10 @@ namespace plannr.DomainModels
         public double Energy { get; set; }
         public double Carbohydrates { get; set; }
         public double TotalFats { get; set; }
+        public string ImageUrl { get; set; }
+        public double Cost { get; set; }
+        public string Cuisine { get; set; }
+        public string Type { get; set; }
 
         [NotMapped]
         public List<string> Ingredients
@@ -46,13 +50,7 @@ namespace plannr.DomainModels
             get => _instructionsJson;
             set => _instructionsJson = value;
         }
-
-
-        public string ImageUrl { get; set; }
-        public double Cost { get; set; }
-        public string Cuisine { get; set; }
-        public string Type { get; set; }
-
+       
         public Recipe()
 		{
 		}
