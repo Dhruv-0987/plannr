@@ -1,5 +1,6 @@
 ﻿
 using System.Globalization;
+using System.Text.RegularExpressions;
 using CsvHelper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -111,10 +112,12 @@ namespace plannr.Controllers
             {
                 foreach (var ingredient in request.Ingredients)
                 {
-                    var lowerIngredient = ingredient.ToLower().Trim();
+                    var primaryNames = GetPrimaryIngredientNames(ingredient);
+
+                    // This will generate a more complex OR query for matching either single or two-word combinations
                     query = query.Where(r =>
                         r.IngredientsJson != null &&
-                        r.Ingredients.Contains(lowerIngredient)
+                        primaryNames.Any(pn => r.IngredientsJson.ToLower().Contains(pn))
                     );
                 }
             }
@@ -147,6 +150,64 @@ namespace plannr.Controllers
             return Ok(response);
         }
 
+        [HttpGet("allIngredients")]
+        public async Task<ActionResult<List<string>>> GetAllUniqueIngredients()
+        {
+            // Fetch all recipes
+            var allRecipes = await _context.RawRecipes.ToListAsync();
+
+            // Regular expression to match quantities and units
+            var regex = new Regex(@"\s?\d+\s?/?\s?\d*\s?[a-zA-Z]*$");
+
+            // Flatten the ingredients from all recipes and extract the main ingredient name, then get unique values
+            var uniqueIngredients = allRecipes
+                                        .SelectMany(r => r.Ingredients)
+                                        .Select(ingredient =>
+                                        {
+                                            // Remove quantities and units using regex
+                                            return regex.Replace(ingredient, "").Trim();
+                                        })
+                                        .Distinct()
+                                        .OrderBy(i => i)  // Optional: order alphabetically for better display in frontend
+                                        .ToList();
+
+            if (uniqueIngredients.Count == 0)
+            {
+                return NotFound("No ingredients found.");
+            }
+
+            return Ok(uniqueIngredients);
+        }
+
+        [HttpGet("allCuisines")]
+        public async Task<ActionResult<List<string>>> GetAllUniqueCuisines()
+        {
+            // Fetch distinct cuisines
+            var uniqueCuisines = await _context.RawRecipes
+                                                .Select(r => r.Cuisine)
+                                                .Distinct()
+                                                .OrderBy(c => c)  // Optional: order alphabetically for better display in frontend
+                                                .ToListAsync();
+
+            if (uniqueCuisines.Count == 0)
+            {
+                return NotFound("No cuisines found.");
+            }
+
+            return Ok(uniqueCuisines);
+        }
+
+        private IEnumerable<string> GetPrimaryIngredientNames(string ingredient)
+        {
+            var parts = ingredient.Split(' ');
+            yield return parts[0].ToLower().Trim();  // Return first word
+
+            if (parts.Length > 1)
+            {
+                // Return combination of first two words
+                yield return $"{parts[0].ToLower().Trim()} {parts[1].ToLower().Trim()}";
+            }
+        }
     }
 }
 
