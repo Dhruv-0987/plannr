@@ -8,7 +8,7 @@ using plannr.DatabaseContext;
 using plannr.DomainModels;
 using plannr.DTOs;
 using plannr.utilities;
-
+using System.Text.Json;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace plannr.Controllers
@@ -18,10 +18,12 @@ namespace plannr.Controllers
     public class RecipeController : Controller
     {
         private readonly PlannrDbContext _context;
+        private readonly ILogger<RecipeController> _logger;
 
-        public RecipeController(PlannrDbContext context)
+        public RecipeController(PlannrDbContext context, ILogger<RecipeController> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         [HttpPost("UploadRecipeData")]
@@ -96,34 +98,33 @@ namespace plannr.Controllers
         [HttpPost("recommendFilteredRecipes")]
         public async Task<ActionResult<RecipeRecommendationResponseDTO>> GetRecommendedRecipes([FromBody] RecipeRecommendationRequestDTO request)
         {
+            _logger.LogInformation($"Received request: {JsonSerializer.Serialize(request)}");
+
             var response = new RecipeRecommendationResponseDTO();
 
-            // Initial query
-            var query = _context.RawRecipes.AsQueryable();
+            // Start with IQueryable right away
+            IQueryable<RawRecipe> preliminaryQuery = _context.RawRecipes;
 
-            // Filter by cuisine
             if (request.Cuisines != null && request.Cuisines.Count > 0)
             {
-                query = query.Where(r => request.Cuisines.Contains(r.Cuisine.ToLower().Trim()));
+                preliminaryQuery = preliminaryQuery.Where(r => request.Cuisines.Contains(r.Cuisine.ToLower().Trim()));
             }
+
+            // After the above, preliminaryQuery is already an IQueryable, so you don't need to do AsQueryable() again.
+            var potentialMatches = await preliminaryQuery.ToListAsync();
 
             // Filter by ingredients
             if (request.Ingredients != null && request.Ingredients.Count > 0)
             {
-                foreach (var ingredient in request.Ingredients)
-                {
-                    var primaryNames = GetPrimaryIngredientNames(ingredient);
-
-                    // This will generate a more complex OR query for matching either single or two-word combinations
-                    query = query.Where(r =>
-                        r.IngredientsJson != null &&
-                        primaryNames.Any(pn => r.IngredientsJson.ToLower().Contains(pn))
-                    );
-                }
+                potentialMatches = potentialMatches.Where(r =>
+                    r.IngredientsJson != null &&
+                    request.Ingredients.Any(ingredient =>
+                    {
+                        var primaryNames = GetPrimaryIngredientNames(ingredient);
+                        return primaryNames.Any(pn => r.IngredientsJson.ToLower().Contains(pn));
+                    })
+                ).ToList();
             }
-
-            // Load potential matches into memory
-            var potentialMatches = await query.ToListAsync();
 
             // Randomize and then filter by budget and servings
             var random = new Random();
