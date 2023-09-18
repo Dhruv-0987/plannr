@@ -18,6 +18,13 @@ builder.Services.AddCors(options =>
                              .AllowAnyMethod()
                              .AllowAnyHeader()
                              .AllowAnyOrigin());
+    options.AddPolicy("VercelFrontendPolicy",
+            builder =>
+            {
+                builder.WithOrigins("https://plannr-e6tc7qdo7-dhruv-0987.vercel.app/")
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            });
 });
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
