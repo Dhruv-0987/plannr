@@ -9,6 +9,8 @@ using plannr.DomainModels;
 using plannr.DTOs;
 using plannr.utilities;
 using System.Text.Json;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace plannr.Controllers
@@ -19,11 +21,13 @@ namespace plannr.Controllers
     {
         private readonly PlannrDbContext _context;
         private readonly ILogger<RecipeController> _logger;
+        private readonly IConfiguration _configuration;
 
-        public RecipeController(PlannrDbContext context, ILogger<RecipeController> logger)
+        public RecipeController(PlannrDbContext context, ILogger<RecipeController> logger, IConfiguration configuration)
         {
             _context = context;
             _logger = logger;
+            _configuration = configuration;
         }
 
         [HttpPost("UploadRecipeData")]
@@ -196,6 +200,36 @@ namespace plannr.Controllers
             }
 
             return Ok(uniqueCuisines);
+        }
+
+        [HttpPost("send-email")]
+        public async Task<IActionResult> SendEmail([FromBody] EmailGroceryListRequestDTO request)
+        {
+            if (request == null || string.IsNullOrEmpty(request.Email) || request.GroceryList == null)
+                return BadRequest("Invalid request.");
+
+            try
+            {
+                var apiKey = _configuration.GetSection("SendGrid:ApiKey").Value;
+                var client = new SendGridClient(apiKey);
+                var from = new EmailAddress("dhruvmat1998@gmail.com", "Plannr");
+                var to = new EmailAddress(request.Email);
+                var subject = "Your Grocery List from YourAppName";
+                var plainTextContent = string.Join('\n', request.GroceryList);
+                var htmlContent = $"<strong>Your Grocery List:</strong><ul>{string.Join("", request.GroceryList.Select(item => $"<li>{item}</li>"))}</ul>";
+                var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
+
+                var response = await client.SendEmailAsync(msg);
+                if (response.StatusCode == System.Net.HttpStatusCode.Accepted || response.StatusCode == System.Net.HttpStatusCode.OK)
+                    return Ok("Email sent successfully.");
+                else
+                    return BadRequest("Failed to send email.");
+            }
+            catch (Exception ex)
+            {
+                // You might want to log the exception here
+                return StatusCode(500, "Internal server error.");
+            }
         }
 
         private IEnumerable<string> GetPrimaryIngredientNames(string ingredient)

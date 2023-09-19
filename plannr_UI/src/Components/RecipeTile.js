@@ -19,7 +19,7 @@ function RecipeTile({ recipe }) {
 
   return (
     <div className="p-4">
-      <div className="flex p-6 border rounded-md shadow-sm space-x-4">
+      <div className="flex p-6 border rounded-md shadow-md space-x-4">
         <img
           src={recipe.imageUrl}
           alt={recipe.recipeTitle}

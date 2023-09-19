@@ -29,15 +29,15 @@ function Carousal() {
         <div className="relative w-full h-[50vh]">
           <img
             src={bannerImage}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover opacity-70"
           />
           <div
-            className="absolute text-center w-1/2 h-1/2 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2
+            className="absolute text-center w-3/4 h-1/2 top-3/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2
           p-6 rounded-lg  "
           >
-          <p className="text-8xl text-brand-green italic font-playfair">Plannr</p>
-            <h2 className=" text-3xl tracking-wider m-6 mt-10 font-pacifico italic text-brand-green font-lato">
-             Tailored Healthy grocery list just for you
+          <p className="text-6xl text-brand-green italic font-playfair">Tailored Healthy grocery list just for you</p>
+            <h2 className=" text-3xl tracking-wider m-6 mt-10 font-pacifico  text-brand-green font-lato">
+              M Y L L L
             </h2>
           </div>
         </div>

@@ -2,10 +2,13 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { selectFilteredRecipes } from "../StateManagement/RecipeSlice";
 import RecipeTile from "./RecipeTile";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import { useNavigate } from "react-router-dom";
 
 const ITEMS_PER_PAGE = 5;
 
 function RecipeResult() {
+  const navigate = useNavigate();
   const recipes = useSelector(selectFilteredRecipes);
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -24,9 +27,11 @@ function RecipeResult() {
         ))}
       </div>
 
-      <div className="mt-4 flex justify-center">
-        {Array.from({ length: Math.ceil(recipes.length / ITEMS_PER_PAGE) }).map(
-          (_, index) => (
+      <div className="flex justify-between p-3">
+        <div className="mt-4 flex justify-center">
+          {Array.from({
+            length: Math.ceil(recipes.length / ITEMS_PER_PAGE),
+          }).map((_, index) => (
             <button
               key={index}
               className={`mx-1 px-3 py-1 border rounded-md ${
@@ -38,10 +43,19 @@ function RecipeResult() {
             >
               {index + 1}
             </button>
-          )
-        )}
+          ))}
+        </div>
+
+        <button
+          className="p-3 bg-brand-green text-white rounded-lg shadow-md hover:bg-brand-green-darker transition-transform 
+        transform duration-300 ease-in-out  focus:ring-2 focus:ring-brand-green-lighter 
+        active:bg-brand-green-dark active:scale-95"
+        onClick={()=>{navigate('/groceries')}}
+        >
+          Generate Grocery List
+          <ArrowForwardIosIcon style={{ marginLeft: "8px" }} />
+        </button>
       </div>
-      
     </div>
   );
 }

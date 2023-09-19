@@ -16,7 +16,7 @@ function Suggestions() {
   const totalCost = useSelector(selectTotalCost);
   const navigate = useNavigate();
 
-  console.log('products suggestions', products)
+  console.log("products suggestions", products);
 
   const transformProducts = products?.map((product) => ({
     ...product,
@@ -24,8 +24,8 @@ function Suggestions() {
   }));
 
   const handleExploreOptions = () => {
-    navigate('/')
-  }
+    navigate("/");
+  };
 
   return (
     <div className="suggestions bg-white bg-cover bg-center bg-no-repeat bg-fixed h-screen m-0">
@@ -35,7 +35,10 @@ function Suggestions() {
             <SuggestionsInput />
           </div>
 
-          <div className="w-1/2 p-4 flex justify-evenly items-center cursor-pointer" onClick={handleExploreOptions}>
+          <div
+            className="w-1/2 p-4 flex justify-evenly items-center cursor-pointer"
+            onClick={handleExploreOptions}
+          >
             <p
               className="bg-white text-md rounded-lg shadow-md p-4 text-brand-green font-playfair
                  transform hover:scale-105 active:scale-95 transition-transform duration-300 hover:shadow-lg"
@@ -62,6 +65,8 @@ function Suggestions() {
                 Your Customized Shopping List
               </p>
               {<SuggestionResults products={transformProducts} />}
+
+              <div>Total Cost: {totalCost}</div>
             </div>
           )}
         </div>

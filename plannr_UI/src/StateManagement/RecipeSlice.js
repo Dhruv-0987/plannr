@@ -58,5 +58,6 @@ export const selectAllIngredients = (state) => state.recipe.allIngredients;
 export const selectAllCuisines = (state) => state.recipe.allCuisines;
 export const selectFilteredRecipes = (state) => state.recipe.recommendedRecipies;
 export const selectAllRecipes = (state) => state.recipe.allRecipes;
+export const selectIsRecipeLoaded = (state) => state.recipe.isRecipesLoaded;
 
 export default recipeSlice.reducer;

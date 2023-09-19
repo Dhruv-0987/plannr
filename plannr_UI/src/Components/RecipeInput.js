@@ -33,6 +33,8 @@ function RecipeInput() {
   const [selectedIngredients, setSelectedIngredients] = useState([]);
   const [currentSelectedIngredient, setCurrentSelectedIngredient] =
     useState(null);
+  const [budgetErrorMsg, setBudgetErrorMsg] = useState(null);
+  const [numberOfPeopleErrMsg, setNumberOfPeopleErrMsg] = useState(null);
   const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
   const allCuisines = useSelector(selectAllCuisines);
   const allIngredients = useSelector(selectAllIngredients);
@@ -62,15 +64,16 @@ function RecipeInput() {
   };
 
   const handleRecipeRecommendation = () => {
-    console.log("handle click");
-    dispatch(
-      fetchFilteredRecipes({
-        budget: selectedBudget,
-        familySize: numberOfPeople,
-        cuisines: selectedCuisines,
-        ingredients: selectedIngredients,
-      })
-    );
+    if (validateInputs()) {
+      dispatch(
+        fetchFilteredRecipes({
+          budget: selectedBudget,
+          familySize: numberOfPeople,
+          cuisines: selectedCuisines,
+          ingredients: selectedIngredients,
+        })
+      );
+    }
   };
 
   const handleToggleFilters = () => {
@@ -92,6 +95,36 @@ function RecipeInput() {
       prevIngredients.filter((ing) => ing !== ingredient)
     );
   };
+
+  function validateInputs() {
+    let isValidBudget = true;
+    let isValidNumberOfPeople = true;
+
+    // Validate selectedBudget
+    if (
+      selectedBudget === null ||
+      typeof selectedBudget !== "number" ||
+      selectedBudget <= 0
+    ) {
+      setBudgetErrorMsg("Please provide a valid budget.");
+      isValidBudget = false;
+    } else {
+      setBudgetErrorMsg(null);
+    }
+
+    // Validate numberOfPeople
+    if (
+      numberOfPeople === null ||
+      typeof numberOfPeople !== "number" ||
+      numberOfPeople <= 0
+    ) {
+      setNumberOfPeopleErrMsg("Please provide a valid number of people.");
+      isValidNumberOfPeople = false;
+    } else {
+      setNumberOfPeopleErrMsg(null);
+    }
+    return isValidBudget && isValidNumberOfPeople;
+  }
 
   return (
     <div className="recipe w-3/4 border-white shadow-md p-6">
@@ -120,6 +153,12 @@ function RecipeInput() {
           </div>
         </div>
 
+        {budgetErrorMsg && (
+          <div className="text-center text-red-800 text-md ">
+            {budgetErrorMsg}
+          </div>
+        )}
+
         <div className="numberofpeople m-2 p-4 flex justify-center space-x-20 align-middle items-center w-full">
           <p className="text-xl flex-shrink-0 w-1/2 text-center">
             Number of People the recipe is for
@@ -141,6 +180,12 @@ function RecipeInput() {
             ))}
           </div>
         </div>
+
+        {numberOfPeopleErrMsg && (
+          <div className="text-center text-red-800 text-md ">
+            {numberOfPeopleErrMsg}
+          </div>
+        )}
 
         {showAdvancedFilters && (
           <div className="ingredients m-2 p-4 flex justify-center space-x-20 align-middle items-center w-full">

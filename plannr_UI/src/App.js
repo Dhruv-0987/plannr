@@ -10,6 +10,7 @@ import {
 } from "react-router-dom";
 import Suggestions from "./Pages/Suggestions";
 import Recipie from "./Pages/Recipy";
+import Groceries from "./Pages/Groceries";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route exact path="/" Component={Home} />
           <Route exact path="/suggestions" Component={Suggestions} />
           <Route exact path="/recipy" Component={Recipie} />
+          <Route exact path="/groceries" Component={Groceries} />
         </Routes>
       </Router>
     </div>

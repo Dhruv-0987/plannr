@@ -80,3 +80,6 @@
 /Users/dhruvmathur/Projects/plannr/plannr/obj/Debug/net7.0/plannr.pdb
 /Users/dhruvmathur/Projects/plannr/plannr/obj/Debug/net7.0/plannr.genruntimeconfig.cache
 /Users/dhruvmathur/Projects/plannr/plannr/obj/Debug/net7.0/ref/plannr.dll
+/Users/dhruvmathur/Projects/plannr/plannr/bin/Debug/net7.0/Newtonsoft.Json.dll
+/Users/dhruvmathur/Projects/plannr/plannr/bin/Debug/net7.0/SendGrid.dll
+/Users/dhruvmathur/Projects/plannr/plannr/bin/Debug/net7.0/StarkbankEcdsa.dll

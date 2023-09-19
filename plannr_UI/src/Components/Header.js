@@ -14,7 +14,7 @@ import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import { useNavigate } from "react-router-dom";
 
-const pages = ['HOME', 'GROCERY RECOMMENDATION', 'COMMUNITY'];
+const pages = ['HOME', 'GROCERY', 'RECIPES'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function Header() {
@@ -35,12 +35,12 @@ function Header() {
       case 'HOME':
         // Code to execute when the currentPage is 'HOME'
         break;
-      case 'GROCERY RECOMMENDATION':
+      case 'GROCERY':
         navigate('/suggestions')
         // Code to execute when the currentPage is 'GROCERY RECOMMENDATION'
         break;
-      case 'COMMUNITY':
-        // Code to execute when the currentPage is 'COMMUNITY'
+      case 'RECIPES':
+        navigate('/recipy')
         break;
       default:
         // Code to execute when the currentPage doesn't match any of the cases
@@ -85,9 +85,9 @@ function Header() {
                 aria-controls="menu-appbar"
                 aria-haspopup="true"
                 onClick={handleOpenNavMenu}
-                color="inherit"
+                color="dark-green"
               >
-                <MenuIcon color="green"/>
+                <MenuIcon sx={{backgroundColor: "dark-green"}}/>
               </IconButton>
               <Menu
                 id="menu-appbar"
@@ -117,6 +117,9 @@ function Header() {
                 ))}
               </Menu>
             </Box>
+
+
+            
             <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
             <Typography
               variant="h5"
@@ -148,35 +151,7 @@ function Header() {
               ))}
             </Box>
 
-            <Box sx={{ flexGrow: 0 }}>
-              <Tooltip title="Open settings">
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-                </IconButton>
-              </Tooltip>
-              <Menu
-                sx={{ mt: "45px" }}
-                id="menu-appbar"
-                anchorEl={anchorElUser}
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                open={Boolean(anchorElUser)}
-                onClose={handleCloseUserMenu}
-              >
-                {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">{setting}</Typography>
-                  </MenuItem>
-                ))}
-              </Menu>
-            </Box>
+            
           </Toolbar>
         </Container>
       </AppBar>
