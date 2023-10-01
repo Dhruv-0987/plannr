@@ -11,6 +11,9 @@ import {
 import Suggestions from "./Pages/Suggestions";
 import Recipie from "./Pages/Recipy";
 import Groceries from "./Pages/Groceries";
+import RecipyDetail from "./Pages/RecipyDetail";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   return (
@@ -22,8 +25,24 @@ function App() {
           <Route exact path="/suggestions" Component={Suggestions} />
           <Route exact path="/recipy" Component={Recipie} />
           <Route exact path="/groceries" Component={Groceries} />
+          <Route
+            exact
+            path="/recipedetail/:recipeId"
+            Component={RecipyDetail}
+          />
         </Routes>
       </Router>
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
   );
 }

@@ -4,6 +4,7 @@ import {
   fetchAllIngredients,
   fetchAllRecipes,
   fetchFilteredRecipes,
+  fetchRecipeById,
 } from "./Effects";
 
 const initialState = {
@@ -12,6 +13,8 @@ const initialState = {
   recommendedRecipies: [],
   totalRecommendedRecipes: null,
   allRecipes: [],
+  currentRecipeDetails: null,
+  isCurrentRecipeDetailsLoaded: null,
   isIngredientsLoaded: null,
   isCuisineLoaded: null,
   isRecipesLoaded: null,
@@ -50,14 +53,24 @@ const recipeSlice = createSlice({
       .addCase(fetchAllRecipes.fulfilled, (state, action) => {
         state.allRecipes = action.payload;
         state.isRecipesLoaded = true;
+      })
+      .addCase(fetchRecipeById.pending, (state) => {
+        state.isCurrentRecipeDetailsLoaded = false;
+      })
+      .addCase(fetchRecipeById.fulfilled, (state, action) => {
+        state.currentRecipeDetails = action.payload;
+        state.isCurrentRecipeDetailsLoaded = true;
       });
   },
 });
 
 export const selectAllIngredients = (state) => state.recipe.allIngredients;
 export const selectAllCuisines = (state) => state.recipe.allCuisines;
-export const selectFilteredRecipes = (state) => state.recipe.recommendedRecipies;
+export const selectFilteredRecipes = (state) =>
+  state.recipe.recommendedRecipies;
 export const selectAllRecipes = (state) => state.recipe.allRecipes;
+export const selectCurrentRecipeDetails = (state) =>
+  state.recipe.currentRecipeDetails;
 export const selectIsRecipeLoaded = (state) => state.recipe.isRecipesLoaded;
 
 export default recipeSlice.reducer;

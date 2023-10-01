@@ -3,6 +3,7 @@ import Select from "react-select";
 import EmailIcon from "@mui/icons-material/Email";
 import Checkbox from "@mui/material/Checkbox";
 import { green } from "@mui/material/colors";
+import PlannrApiService from "../AppService";
 
 const CustomOption = ({ innerProps, label, data }) => (
   <div
@@ -25,6 +26,9 @@ function GeneratedGroceries({ recipes }) {
     recipes.flatMap((recipe) => recipe.ingredients)
   );
   const [groceriesToEmail, setGroceriesToEmail] = useState(filteredIngredients);
+  const [emailConfirmationMsg, setEmailConfirmationMsg] = useState(null);
+  const [emailErrorMsg, setEmailErrorMsg] = useState(null);
+  const [reciverEmail, serReciverEmail] = useState("dhruvmathurssw.com.au");
 
   const options = recipes.map((recipe) => ({
     value: recipe.id,
@@ -67,10 +71,33 @@ function GeneratedGroceries({ recipes }) {
     }
   };
 
+  const handleSendEmail = () => {
+    PlannrApiService.sendGroceryListEmail(reciverEmail, groceriesToEmail)
+      .then((res) => {
+        if (res.status === 200) {
+          setEmailConfirmationMsg("Email Sent Succesfully");
+          setEmailErrorMsg(null);
+        } else {
+          setEmailConfirmationMsg("Email Could Not be send Try Again");
+          setEmailErrorMsg(null);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <div className="grid grid-cols-4 gap-6 p-10 bg-white shadow-md rounded-sm m-6 overflow-clip">
       {/* Grocery List (3 columns) */}
+
       <div className="col-span-3 h-[600px] pr-4 border-r">
+
+        <p className="m-2 text-brand-green text-left text-lg">
+          *Select the ingredient you already have to omit it from the emailed
+          list for Shopping.
+        </p>
+
         <Select
           options={options}
           onChange={setSelectedRecipe}
@@ -86,9 +113,11 @@ function GeneratedGroceries({ recipes }) {
           {filteredIngredients.map((ingredient, idx) => (
             <div
               key={idx}
-              className="flex items-center justify-between p-2 border rounded"
+              className="flex items-center justify-between p-2 border rounded shadow-md"
             >
-              <span className="p-2 text-xl text-brand-green font-lato">{ingredient}</span>
+              <span className="p-2 text-xl text-brand-green font-lato">
+                {ingredient}
+              </span>
               <Checkbox
                 color="default"
                 inputProps={{ "aria-label": "select ingredient" }}
@@ -112,16 +141,22 @@ function GeneratedGroceries({ recipes }) {
         <div className="mb-4">Total Cost: AUD ${totalCost}</div>
 
         <div className="flex justify-center mt-4">
-          <button className="flex items-center px-6 py-2 bg-brand-green text-white rounded">
+          <button
+            className="flex items-center px-6 py-2 bg-brand-green text-white rounded"
+            onClick={handleSendEmail}
+          >
             <EmailIcon className="mr-2" />
             Email Grocery List
           </button>
         </div>
 
-        <p className="m-6 text-red-600">
-          Select the ingredient you already have to omit it from the emailed
-          list for Shopping.
-        </p>
+        {emailConfirmationMsg && (
+          <div>
+            <p className="text-center text-blue-500 m-6">
+              {emailConfirmationMsg}
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );

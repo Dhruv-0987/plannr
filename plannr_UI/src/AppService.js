@@ -45,6 +45,49 @@ const PlannrApiService = {
       `${process.env.REACT_APP_PLANNR_BASE_URL}/api/recipe`
     );
   },
+
+  async getRecipeById(id) {
+    return await axios.get(
+      `${process.env.REACT_APP_PLANNR_BASE_URL}/api/recipe/getRecipeById/${id}`
+    );
+  },
+
+  async sendGroceryListEmail(email, groceryList) {
+    const reqBody = {
+      email: email,
+      groceryList: groceryList,
+    };
+
+    return await axios.post(
+      `${process.env.REACT_APP_PLANNR_BASE_URL}/api/recipe/send-email`,
+      reqBody
+    );
+  },
+
+  async addRating(recipeId, ratings, comment) {
+    const reqBody = {
+      recipeId: recipeId,
+      rating: ratings,
+      comments: comment,
+    };
+
+    return await axios.post(
+      `${process.env.REACT_APP_PLANNR_BASE_URL}/api/Review/addReview`,
+      reqBody
+    );
+  },
+
+  async getReviewsByRecipeId(recipeId) {
+    return await axios.get(
+      `${process.env.REACT_APP_PLANNR_BASE_URL}/api/Review/${recipeId}/reviews`
+    );
+  },
+
+  async getAverageRatingByRecipeId(recipeId) {
+    return await axios.get(
+      `${process.env.REACT_APP_PLANNR_BASE_URL}/api/Review/${recipeId}/average-rating`
+    );
+  },
 };
 
 export default PlannrApiService;

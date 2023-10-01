@@ -127,7 +127,7 @@ function RecipeInput() {
   }
 
   return (
-    <div className="recipe w-3/4 border-white shadow-md p-6">
+    <div className="recipe w-3/4 border-white shadow-md p-6 bg-green-50">
       <p className="font-playfair text-3xl">
         What kind of recipes would you like?
       </p>

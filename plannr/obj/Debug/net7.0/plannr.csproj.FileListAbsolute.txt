@@ -83,3 +83,5 @@
 /Users/dhruvmathur/Projects/plannr/plannr/bin/Debug/net7.0/Newtonsoft.Json.dll
 /Users/dhruvmathur/Projects/plannr/plannr/bin/Debug/net7.0/SendGrid.dll
 /Users/dhruvmathur/Projects/plannr/plannr/bin/Debug/net7.0/StarkbankEcdsa.dll
+/Users/dhruvmathur/Projects/plannr/plannr/bin/Debug/net7.0/FluentEmail.Core.dll
+/Users/dhruvmathur/Projects/plannr/plannr/bin/Debug/net7.0/FluentEmail.Mailgun.dll

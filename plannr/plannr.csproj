@@ -26,6 +26,7 @@
     </PackageReference>
     <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.2.0" />
     <PackageReference Include="SendGrid" Version="9.28.1" />
+    <PackageReference Include="FluentEmail.Mailgun" Version="3.0.2" />
   </ItemGroup>
 
   <ItemGroup>

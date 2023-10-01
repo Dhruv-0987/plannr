@@ -1,12 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "4K6xDFPET2+rqw0D+widNi0SnYNduK9v1LbLApS3riGMP1am9J/Vc/wOAHatGbYhT6ibO0q0SOu6xDcOhsNP1g==",
+  "dgSpecHash": "dSdWwQLJz2LGDmAoBpV/49hR+u1E50OajbiLLVUjMHqK2ypwBtciKo1zqEZjihazyrhE6BxSUYWUHozH5k2Qgw==",
   "success": true,
   "projectFilePath": "/Users/dhruvmathur/Projects/plannr/plannr/plannr.csproj",
   "expectedPackageFiles": [
     "/Users/dhruvmathur/.nuget/packages/azure.core/1.24.0/azure.core.1.24.0.nupkg.sha512",
     "/Users/dhruvmathur/.nuget/packages/azure.identity/1.6.0/azure.identity.1.6.0.nupkg.sha512",
     "/Users/dhruvmathur/.nuget/packages/csvhelper/30.0.1/csvhelper.30.0.1.nupkg.sha512",
+    "/Users/dhruvmathur/.nuget/packages/fluentemail.core/3.0.2/fluentemail.core.3.0.2.nupkg.sha512",
+    "/Users/dhruvmathur/.nuget/packages/fluentemail.mailgun/3.0.2/fluentemail.mailgun.3.0.2.nupkg.sha512",
     "/Users/dhruvmathur/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",
     "/Users/dhruvmathur/.nuget/packages/microsoft.aspnetcore.cors/2.2.0/microsoft.aspnetcore.cors.2.2.0.nupkg.sha512",
     "/Users/dhruvmathur/.nuget/packages/microsoft.aspnetcore.http.abstractions/2.2.0/microsoft.aspnetcore.http.abstractions.2.2.0.nupkg.sha512",

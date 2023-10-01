@@ -19,6 +19,9 @@ namespace plannr.DomainModels
         public double Cost { get; set; }
         public string Cuisine { get; set; }
         public string Type { get; set; }
+        
+
+        public virtual ICollection<Review> Reviews { get; set; }
 
         [NotMapped]
         public List<string> Ingredients
@@ -81,8 +84,8 @@ namespace plannr.DomainModels
 
         public RawRecipe()
 		{
-			
-		}
+            Reviews = new List<Review>();
+        }
 	}
 }
 

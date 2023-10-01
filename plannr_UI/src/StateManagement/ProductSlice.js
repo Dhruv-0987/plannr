@@ -1,5 +1,4 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import PlannrApiService from "../AppService";
+import { createSlice } from "@reduxjs/toolkit";
 import { fetchProducts } from "./Effects";
 
 const initialState = {

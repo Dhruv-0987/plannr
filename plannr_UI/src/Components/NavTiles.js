@@ -8,7 +8,8 @@ function NavTiles() {
 
   return (
     <div className="">
-      <div className=" grid md:grid-cols-3 grid-cols-1  justify-center items-center p-5 bg-white bg-opacity-80  gap-x-6 lg:w-[1000px] w-full h-80">
+      <div className=" grid md:grid-cols-3 grid-cols-1  justify-center items-center p-5 bg-white bg-opacity-80  md:gap-x-6 
+       gap-y-4 lg:w-[1000px] w-full h-80">
         <div
           className="transform cursor-pointer hover:scale-105 transition-transform duration-300 h-full w-full flex 
         flex-col justify-between p-4 rounded shadow hover:shadow-xl  bg-brand-green opacity-70"

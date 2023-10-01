@@ -45,3 +45,27 @@ export const fetchAllRecipes = createAsyncThunk(
     return res.data;
   }
 );
+
+export const fetchRecipeById = createAsyncThunk(
+  "recipe/fetchRecipeById",
+  async (id) => {
+    const res = await PlannrApiService.getRecipeById(id);
+    return res.data;
+  }
+);
+
+export const fetchReviewsByRecipeId = createAsyncThunk(
+  "recipe/fetchReviewByRecipeId",
+  async (recipeId) => {
+    const res = await PlannrApiService.getReviewsByRecipeId(recipeId);
+    return res.data;
+  }
+);
+
+export const fetchAverageRatingByRecipeId = createAsyncThunk(
+  "recipe/fetchAverageRatingByRecipeId",
+  async (recipeId) => {
+    const res = await PlannrApiService.getAverageRatingByRecipeId(recipeId);
+    return res.data;
+  }
+);

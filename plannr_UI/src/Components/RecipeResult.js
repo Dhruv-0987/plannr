@@ -16,18 +16,18 @@ function RecipeResult() {
   const endIndex = startIndex + ITEMS_PER_PAGE;
 
   return (
-    <div className="w-3/4 border-white shadow-md p-6">
+    <div className="w-3/4 border-white rounded-md shadow-md p-6">
       <p className="reciperesult text-center text-3xl font-playfair text-brand-green">
         Here are your Recipe Recommendations!
       </p>
 
-      <div>
-        {recipes.slice(startIndex, endIndex).map((recipe) => (
-          <RecipeTile key={recipe.id} recipe={recipe} />
+      <div className="flex flex-col justify-center align-middle items-center">
+        {recipes.slice(startIndex, endIndex).map((recipe, idx) => (
+          <RecipeTile key={recipe.id} recipe={recipe} idx={idx}/>
         ))}
       </div>
 
-      <div className="flex justify-between p-3">
+      <div className="flex justify-evenly gap-x-40 p-3">
         <div className="mt-4 flex justify-center">
           {Array.from({
             length: Math.ceil(recipes.length / ITEMS_PER_PAGE),

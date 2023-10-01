@@ -5,7 +5,7 @@ namespace plannr.DTOs
 {
 	public class RecipeRecommendationResponseDTO
 	{
-        public List<RawRecipe> Recipes { get; set; }
+        public List<RecipeResponseDTO> Recipes { get; set; }
 
 		public int TotalRecipes { get; set; }
 

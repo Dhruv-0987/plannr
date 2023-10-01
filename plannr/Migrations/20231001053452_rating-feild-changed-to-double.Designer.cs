@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using plannr.DatabaseContext;
 
@@ -11,9 +12,11 @@ using plannr.DatabaseContext;
 namespace plannr.Migrations
 {
     [DbContext(typeof(PlannrDbContext))]
-    partial class PlannrDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231001053452_rating-feild-changed-to-double")]
+    partial class ratingfeildchangedtodouble
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -212,13 +215,13 @@ namespace plannr.Migrations
 
             modelBuilder.Entity("plannr.DomainModels.Review", b =>
                 {
-                    b.HasOne("plannr.DomainModels.RawRecipe", "RawRecipe")
+                    b.HasOne("plannr.DomainModels.RawRecipe", "recipe")
                         .WithMany("Reviews")
                         .HasForeignKey("RecipeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("RawRecipe");
+                    b.Navigation("recipe");
                 });
 
             modelBuilder.Entity("plannr.DomainModels.RawRecipe", b =>

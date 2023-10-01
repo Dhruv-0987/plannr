@@ -31,6 +31,11 @@ builder.Services.AddCors(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services
+    .AddFluentEmail("your_email@your_domain.com")
+    .AddMailGunSender("your_domain", "your_api_key");
+
+
 var configuration = builder.Configuration;
 
 builder.Services.AddDbContext<PlannrDbContext>(options =>

@@ -9,8 +9,6 @@ using plannr.DomainModels;
 using plannr.DTOs;
 using plannr.utilities;
 using System.Text.Json;
-using SendGrid;
-using SendGrid.Helpers.Mail;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace plannr.Controllers
@@ -52,12 +50,45 @@ namespace plannr.Controllers
             return Ok("Data imported successfully");
         }
 
-        [HttpGet]
+        [HttpGet("getAllRecipes")]
         public async Task<ActionResult<List<RawRecipe>>> GetAllRecipes()
         {
             var recipies = await _context.RawRecipes.ToListAsync();
 
             return recipies;
+        }
+
+        [HttpGet("getRecipeById/{id}")]
+        public async Task<ActionResult<RecipeResponseDTO>> GetRecipe(int id)
+        {
+            var recipe = await _context.RawRecipes.FindAsync(id);
+
+            if (recipe == null)
+            {
+                return NotFound();
+            }
+
+            double avgRating = (recipe.Reviews != null && recipe.Reviews.Any()) ? recipe.Reviews.Average(r => r.Rating) : 0;
+
+            var recipeResponse = new RecipeResponseDTO
+                {
+                    Id = recipe.Id,
+                    RecipeTitle = recipe.RecipeTitle,
+                    Servings = recipe.Servings,
+                    Protein = recipe.Protein,
+                    Energy = recipe.Energy,
+                    Carbohydrates = recipe.Carbohydrates,
+                    TotalFats = recipe.TotalFats,
+                    ImageUrl = recipe.ImageUrl,
+                    Cost = recipe.Cost,
+                    Cuisine = recipe.Cuisine,
+                    Type = recipe.Type,
+                    AverageRating = avgRating,
+                    Ingredients = recipe.Ingredients,  // Map Ingredients
+                    Instructions = recipe.Instructions  // Map Instructions
+                };
+
+            return recipeResponse;
         }
 
 
@@ -75,14 +106,33 @@ namespace plannr.Controllers
             var random = new Random();
             var shuffledRecipes = recipes.OrderBy(r => random.Next()).ToList();
 
-            var selectedRecipes = new List<RawRecipe>();
+            var selectedRecipes = new List<RecipeResponseDTO>();
             double totalSpent = 0;
 
             foreach (var recipe in shuffledRecipes)
             {
                 if ((totalSpent + recipe.Cost) <= budget) // Ensure we don't exceed budget
                 {
-                    selectedRecipes.Add(recipe);
+                    double avgRating = (recipe.Reviews != null && recipe.Reviews.Any()) ? recipe.Reviews.Average(r => r.Rating) : 0;
+
+                    selectedRecipes.Add(new RecipeResponseDTO
+                    {
+                        Id = recipe.Id,
+                        RecipeTitle = recipe.RecipeTitle,
+                        Servings = recipe.Servings,
+                        Protein = recipe.Protein,
+                        Energy = recipe.Energy,
+                        Carbohydrates = recipe.Carbohydrates,
+                        TotalFats = recipe.TotalFats,
+                        ImageUrl = recipe.ImageUrl,
+                        Cost = recipe.Cost,
+                        Cuisine = recipe.Cuisine,
+                        Type = recipe.Type,
+                        AverageRating = avgRating,
+                        Ingredients = recipe.Ingredients,  // Map Ingredients
+                        Instructions = recipe.Instructions  // Map Instructions
+                    });
+
                     totalSpent += recipe.Cost;
                 }
                 if (totalSpent >= budget) break; // Stop if budget is exhausted
@@ -132,13 +182,32 @@ namespace plannr.Controllers
 
             // Randomize and then filter by budget and servings
             var random = new Random();
-            var selectedRecipes = new List<RawRecipe>();
+            var selectedRecipes = new List<RecipeResponseDTO>();
 
             foreach (var recipe in potentialMatches.OrderBy(r => random.Next()))
             {
                 if (recipe.Cost <= request.Budget && recipe.Servings >= request.NumberOfPeople)
                 {
-                    selectedRecipes.Add(recipe);
+                    double avgRating = (recipe.Reviews != null && recipe.Reviews.Any()) ? recipe.Reviews.Average(r => r.Rating) : 0;
+
+                    selectedRecipes.Add(new RecipeResponseDTO
+                    {
+                        Id = recipe.Id,
+                        RecipeTitle = recipe.RecipeTitle,
+                        Servings = recipe.Servings,
+                        Protein = recipe.Protein,
+                        Energy = recipe.Energy,
+                        Carbohydrates = recipe.Carbohydrates,
+                        TotalFats = recipe.TotalFats,
+                        ImageUrl = recipe.ImageUrl,
+                        Cost = recipe.Cost,
+                        Cuisine = recipe.Cuisine,
+                        Type = recipe.Type,
+                        AverageRating = avgRating,
+                        Ingredients = recipe.Ingredients,  
+                        Instructions = recipe.Instructions
+                    });
+
                     request.Budget -= recipe.Cost;
                 }
             }
@@ -202,35 +271,7 @@ namespace plannr.Controllers
             return Ok(uniqueCuisines);
         }
 
-        [HttpPost("send-email")]
-        public async Task<IActionResult> SendEmail([FromBody] EmailGroceryListRequestDTO request)
-        {
-            if (request == null || string.IsNullOrEmpty(request.Email) || request.GroceryList == null)
-                return BadRequest("Invalid request.");
-
-            try
-            {
-                var apiKey = _configuration.GetSection("SendGrid:ApiKey").Value;
-                var client = new SendGridClient(apiKey);
-                var from = new EmailAddress("dhruvmat1998@gmail.com", "Plannr");
-                var to = new EmailAddress(request.Email);
-                var subject = "Your Grocery List from YourAppName";
-                var plainTextContent = string.Join('\n', request.GroceryList);
-                var htmlContent = $"<strong>Your Grocery List:</strong><ul>{string.Join("", request.GroceryList.Select(item => $"<li>{item}</li>"))}</ul>";
-                var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
-
-                var response = await client.SendEmailAsync(msg);
-                if (response.StatusCode == System.Net.HttpStatusCode.Accepted || response.StatusCode == System.Net.HttpStatusCode.OK)
-                    return Ok("Email sent successfully.");
-                else
-                    return BadRequest("Failed to send email.");
-            }
-            catch (Exception ex)
-            {
-                // You might want to log the exception here
-                return StatusCode(500, "Internal server error.");
-            }
-        }
+        
 
         private IEnumerable<string> GetPrimaryIngredientNames(string ingredient)
         {
