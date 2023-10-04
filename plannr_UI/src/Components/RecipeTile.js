@@ -22,7 +22,7 @@ function RecipeTile({ recipe, idx }) {
   return (
     <div className="p-4 w-3/4">
       <div
-        className={`flex p-6 border rounded-md shadow-md space-x-4 justify-evenly 
+        className={`grid grid-cols-2 p-6 border rounded-md shadow-md space-x-4 justify-evenly 
                   ${idx % 2 == 0 ? `bg-gray-100` : `bg-white`}
                   transform transition-transform duration-300 hover:-translate-y-2 hover:scale-105 cursor-pointer`}
       >

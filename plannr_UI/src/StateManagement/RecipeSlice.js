@@ -3,6 +3,7 @@ import {
   fetchAllCuisine,
   fetchAllIngredients,
   fetchAllRecipes,
+  fetchAllTypes,
   fetchFilteredRecipes,
   fetchRecipeById,
 } from "./Effects";
@@ -10,6 +11,7 @@ import {
 const initialState = {
   allIngredients: [],
   allCuisines: [],
+  allTypes: [],
   recommendedRecipies: [],
   totalRecommendedRecipes: null,
   allRecipes: [],
@@ -18,6 +20,7 @@ const initialState = {
   isIngredientsLoaded: null,
   isCuisineLoaded: null,
   isRecipesLoaded: null,
+  isTypesLoaded: null,
 };
 
 const recipeSlice = createSlice({
@@ -31,6 +34,13 @@ const recipeSlice = createSlice({
       .addCase(fetchAllCuisine.fulfilled, (state, action) => {
         state.allCuisines = action.payload;
         state.isCuisineLoaded = true;
+      })
+      .addCase(fetchAllTypes.pending, (state) => {
+        state.isTypesLoaded = false;
+      })
+      .addCase(fetchAllTypes.fulfilled, (state, action) => {
+        state.allTypes = action.payload;
+        state.isTypesLoaded = true;
       })
       .addCase(fetchAllIngredients.pending, (state) => {
         state.isIngredientsLoaded = false;
@@ -72,5 +82,6 @@ export const selectAllRecipes = (state) => state.recipe.allRecipes;
 export const selectCurrentRecipeDetails = (state) =>
   state.recipe.currentRecipeDetails;
 export const selectIsRecipeLoaded = (state) => state.recipe.isRecipesLoaded;
+export const selectAllTypes = (state) => state.recipe.allTypes;
 
 export default recipeSlice.reducer;

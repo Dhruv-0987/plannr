@@ -3,11 +3,13 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   fetchAllCuisine,
   fetchAllIngredients,
+  fetchAllTypes,
   fetchFilteredRecipes,
 } from "../StateManagement/Effects";
 import {
   selectAllCuisines,
   selectAllIngredients,
+  selectAllTypes,
 } from "../StateManagement/RecipeSlice";
 import Select from "react-select";
 
@@ -33,15 +35,19 @@ function RecipeInput() {
   const [selectedIngredients, setSelectedIngredients] = useState([]);
   const [currentSelectedIngredient, setCurrentSelectedIngredient] =
     useState(null);
+  const [selectedTypes, setSelectedTypes] = useState([]);
+  const [currentSelectedType, setCurrentSelectedType] = useState(null);
   const [budgetErrorMsg, setBudgetErrorMsg] = useState(null);
   const [numberOfPeopleErrMsg, setNumberOfPeopleErrMsg] = useState(null);
   const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
   const allCuisines = useSelector(selectAllCuisines);
   const allIngredients = useSelector(selectAllIngredients);
+  const allTypes = useSelector(selectAllTypes);
 
   useEffect(() => {
     dispatch(fetchAllCuisine());
     dispatch(fetchAllIngredients());
+    dispatch(fetchAllTypes());
   }, [dispatch]);
 
   const displayedCuisines = allCuisines.filter((cuisine) =>
@@ -49,6 +55,11 @@ function RecipeInput() {
   );
 
   const ingredientOptions = allIngredients.map((ingredient) => ({
+    value: ingredient,
+    label: ingredient,
+  }));
+
+  const typeOptions = allTypes.map((ingredient) => ({
     value: ingredient,
     label: ingredient,
   }));
@@ -71,6 +82,7 @@ function RecipeInput() {
           familySize: numberOfPeople,
           cuisines: selectedCuisines,
           ingredients: selectedIngredients,
+          types: selectedTypes,
         })
       );
     }
@@ -94,6 +106,18 @@ function RecipeInput() {
     setSelectedIngredients((prevIngredients) =>
       prevIngredients.filter((ing) => ing !== ingredient)
     );
+  };
+
+  const handleTypeSelect = (selectedOption) => {
+    if (selectedOption && !selectedTypes.includes(selectedOption.value)) {
+      setSelectedTypes([...selectedTypes, selectedOption.value]);
+    }
+
+    setCurrentSelectedType(null);
+  };
+
+  const removeSelectedType = (typeToRemove) => {
+    setSelectedTypes(selectedTypes.filter((type) => type !== typeToRemove));
   };
 
   function validateInputs() {
@@ -134,7 +158,9 @@ function RecipeInput() {
 
       <div className="flex flex-col items-center space-y-8">
         <div className="numberofpeople m-2 p-4 flex justify-center space-x-20 align-middle items-center w-full">
-          <p className="text-xl flex-shrink-0 w-1/2 text-center">Your budget</p>
+          <p className="text-xl flex-shrink-0 w-1/2 text-center">
+            Your weekly budget
+          </p>
           <div className="flex w-1/2">
             {possibleBudget.map((budget) => (
               <div
@@ -224,9 +250,45 @@ function RecipeInput() {
           </div>
         )}
 
+        {showAdvancedFilters && (
+          <div className="types m-2 p-4 flex justify-center space-x-20 align-middle items-center w-full">
+            <p className="text-xl flex-shrink-0 w-1/2 text-center">
+              Types of Recipes
+            </p>
+            <div className="flex w-1/2">
+              <Select
+                options={typeOptions} // Make sure you have this array of type options similar to ingredientOptions
+                value={currentSelectedType}
+                onChange={handleTypeSelect}
+                placeholder="Select or type a recipe type..."
+                isSearchable={true}
+                className="text-gray-700 w-full"
+              />
+            </div>
+          </div>
+        )}
+
+        {selectedTypes.length > 0 && showAdvancedFilters && (
+          <div className="mt-4">
+            {selectedTypes.map((type) => (
+              <span
+                key={type}
+                className="inline-flex items-center bg-brand-green text-white rounded-full px-3 py-1 text-sm mr-2 mb-2" 
+              >
+                {type}
+                <button
+                  className="ml-2 text-white"
+                  onClick={() => removeSelectedType(type)}
+                >
+                  &times;
+                </button>
+              </span>
+            ))}
+          </div>
+        )}
+
         <div className="cuisine">
-          <p className="font-playfair text-xl">
-            What kind of cuisine would you like?
+          <p className="font-playfair text-xl"> What kind of cuisine would you like?
           </p>
           <div className="flex flex-wrap gap-4 m-4">
             {displayedCuisines.map((cuisine) => (

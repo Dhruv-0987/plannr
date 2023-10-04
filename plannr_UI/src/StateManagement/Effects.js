@@ -25,14 +25,23 @@ export const fetchAllCuisine = createAsyncThunk(
   }
 );
 
+export const fetchAllTypes = createAsyncThunk(
+  "recipe/fetchAllTypes",
+  async () => {
+    const res = await PlannrApiService.getAllTypes();
+    return res.data;
+  }
+);
+
 export const fetchFilteredRecipes = createAsyncThunk(
   "recipe/fetchFilteredRecipes",
-  async ({ budget, familySize, cuisines, ingredients }) => {
+  async ({ budget, familySize, cuisines, ingredients, types }) => {
     const res = await PlannrApiService.getFilteredRecipes({
       budget,
       numberOfPeople: familySize, // renamed familySize to numberOfPeople
       cuisines,
       ingredients,
+      types
     });
     return res.data;
   }

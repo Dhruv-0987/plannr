@@ -61,7 +61,7 @@ namespace plannr.Controllers
         [HttpGet("getRecipeById/{id}")]
         public async Task<ActionResult<RecipeResponseDTO>> GetRecipe(int id)
         {
-            var recipe = await _context.RawRecipes.FindAsync(id);
+            var recipe = await _context.RawRecipes.Include(r => r.Reviews).FirstOrDefaultAsync(r => r.Id == id);
 
             if (recipe == null)
             {
@@ -151,9 +151,7 @@ namespace plannr.Controllers
 
         [HttpPost("recommendFilteredRecipes")]
         public async Task<ActionResult<RecipeRecommendationResponseDTO>> GetRecommendedRecipes([FromBody] RecipeRecommendationRequestDTO request)
-        {
-            _logger.LogInformation($"Received request: {JsonSerializer.Serialize(request)}");
-
+        { 
             var response = new RecipeRecommendationResponseDTO();
 
             // Start with IQueryable right away
@@ -164,8 +162,13 @@ namespace plannr.Controllers
                 preliminaryQuery = preliminaryQuery.Where(r => request.Cuisines.Contains(r.Cuisine.ToLower().Trim()));
             }
 
+            if (request.FoodTypes != null && request.FoodTypes.Count > 0)
+            {
+                preliminaryQuery = preliminaryQuery.Where(r => request.FoodTypes.Contains(r.Type.ToLower().Trim()));
+            }
+
             // After the above, preliminaryQuery is already an IQueryable, so you don't need to do AsQueryable() again.
-            var potentialMatches = await preliminaryQuery.ToListAsync();
+            var potentialMatches = await preliminaryQuery.Include(r => r.Reviews).ToListAsync();
 
             // Filter by ingredients
             if (request.Ingredients != null && request.Ingredients.Count > 0)
@@ -230,20 +233,26 @@ namespace plannr.Controllers
             // Fetch all recipes
             var allRecipes = await _context.RawRecipes.ToListAsync();
 
-            // Regular expression to match quantities and units
-            var regex = new Regex(@"\s?\d+\s?/?\s?\d*\s?[a-zA-Z]*$");
+            // Regular expression to match the start of quantities
+            var regex = new Regex(@"\s?\d");
 
             // Flatten the ingredients from all recipes and extract the main ingredient name, then get unique values
             var uniqueIngredients = allRecipes
-                                        .SelectMany(r => r.Ingredients)
-                                        .Select(ingredient =>
+                                    .SelectMany(r => r.Ingredients)
+                                    .Select(ingredient =>
+                                    {
+                                        // Find the position where the number starts using regex
+                                        var match = regex.Match(ingredient);
+                                        if (match.Success)
                                         {
-                                            // Remove quantities and units using regex
-                                            return regex.Replace(ingredient, "").Trim();
-                                        })
-                                        .Distinct()
-                                        .OrderBy(i => i)  // Optional: order alphabetically for better display in frontend
-                                        .ToList();
+                                            // Extract the part of the string before the number and trim it
+                                            return ingredient.Substring(0, match.Index).Trim();
+                                        }
+                                        return ingredient.Trim();
+                                    })
+                                    .Distinct()
+                                    .OrderBy(i => i)  // Optional: order alphabetically for better display in frontend
+                                    .ToList();
 
             if (uniqueIngredients.Count == 0)
             {
@@ -252,6 +261,7 @@ namespace plannr.Controllers
 
             return Ok(uniqueIngredients);
         }
+
 
         [HttpGet("allCuisines")]
         public async Task<ActionResult<List<string>>> GetAllUniqueCuisines()
@@ -269,6 +279,52 @@ namespace plannr.Controllers
             }
 
             return Ok(uniqueCuisines);
+        }
+
+        [HttpGet("allRecipeTypes")]
+        public async Task<ActionResult<List<string>>> GetAllUniqueRecipeTypes()
+        {
+            // Fetch all distinct recipe types
+            var allRecipeTypes = await _context.RawRecipes
+                                               .Select(r => r.Type)
+                                               .Distinct()
+                                               .OrderBy(t => t)  // Optional: order alphabetically for better display in frontend
+                                               .ToListAsync();
+
+            if (!allRecipeTypes.Any())
+            {
+                return NotFound("No recipe types found.");
+            }
+
+            return Ok(allRecipeTypes);
+        }
+
+
+        [HttpDelete("deleteAllRecipes")]
+        public async Task<ActionResult<bool>> DeleteAllRecipies()
+        {
+            try
+            {
+                // Fetch all the recipes
+                var allRecipes = _context.RawRecipes;
+
+                // Remove them from the context
+                _context.RawRecipes.RemoveRange(allRecipes);
+
+                // Save changes
+                await _context.SaveChangesAsync();
+
+                // Return a success message
+                return Ok("All recipes have been deleted successfully.");
+            }
+            catch (Exception ex)
+            {
+                // Log the exception
+                _logger.LogError(ex, "An error occurred while trying to delete all recipes.");
+
+                // Return a server error
+                return StatusCode(500, "Internal server error. Could not delete recipes.");
+            }
         }
 
         

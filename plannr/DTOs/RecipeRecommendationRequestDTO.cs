@@ -11,7 +11,9 @@ namespace plannr.DTOs
 
 		public List<string> Ingredients {get; set;}
 
-		public RecipeRecommendationRequestDTO()
+        public List<string> FoodTypes { get; set; }
+
+        public RecipeRecommendationRequestDTO()
 		{
 		}
 	}

@@ -24,14 +24,27 @@ const PlannrApiService = {
     );
   },
 
-  async getFilteredRecipes({ budget, numberOfPeople, cuisines, ingredients }) {
-    console.log("calling api");
+  async getAllTypes() {
+    return await axios.get(
+      `${process.env.REACT_APP_PLANNR_BASE_URL}/api/recipe/allRecipeTypes`
+    );
+  },
+
+  async getFilteredRecipes({
+    budget,
+    numberOfPeople,
+    cuisines,
+    ingredients,
+    types,
+  }) {
+    console.log("calling api", types);
     const numericBudget = parseFloat(budget);
     const reqBody = {
       Budget: budget,
       NumberOfPeople: numberOfPeople,
       Cuisines: cuisines,
       Ingredients: ingredients,
+      FoodTypes: types,
     };
     console.log(reqBody);
     return await axios.post(
