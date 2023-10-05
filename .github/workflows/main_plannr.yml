@@ -90,4 +90,4 @@ jobs:
         id: deploy-to-blobstorage
         working-directory: frontend
         run: |
-          az storage blob upload-batch -d '$web' --account-name saplannrprod -s . --overwrite
+          az storage blob upload-batch -d '$web' --account-name saplannrprod -s . --overwrite --account-key ${{ secrets.AZURE_STORAGE_KEY }}
