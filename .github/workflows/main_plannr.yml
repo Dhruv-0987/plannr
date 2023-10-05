@@ -42,6 +42,8 @@ jobs:
         working-directory: plannr_UI
         run: |
           npm run build
+        env:
+          CI: false
 
       - name: Upload .NET artifact for deployment job
         uses: actions/upload-artifact@v2
