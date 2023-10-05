@@ -219,11 +219,6 @@ namespace plannr.Controllers
             response.Recipes = selectedRecipes;
             response.TotalRecipes = selectedRecipes.Count;
 
-            if (response.TotalRecipes == 0)
-            {
-                return NotFound("No recipes found for the given criteria.");
-            }
-
             return Ok(response);
         }
 
@@ -260,6 +255,47 @@ namespace plannr.Controllers
             }
 
             return Ok(uniqueIngredients);
+        }
+
+        [HttpPost("GetAggregatedIngredients")]
+        public async Task<ActionResult<IEnumerable<AggregateIngredientDTO>>> GetAggregatedIngredients([FromBody] List<int> recipeIds)
+        {
+            var allRecipes = await _context.RawRecipes.Where(r => recipeIds.Contains(r.Id)).ToListAsync();
+            // Fetch all the ingredients based on the provided recipe IDs
+            var ingredients = allRecipes
+                .SelectMany(r => r.Ingredients)
+                .ToList();
+
+            // Object to store the aggregated ingredients
+            var ingredientDict = new Dictionary<string, double>();
+
+            foreach (var ingredient in ingredients)
+            {
+                var match = Regex.Match(ingredient, @"^(.*?)\s+(\d+)");
+                if (match.Success)
+                {
+                    var name = match.Groups[1].Value.Trim();
+                    var quantity = double.Parse(match.Groups[2].Value);
+
+                    if (ingredientDict.ContainsKey(name))
+                    {
+                        ingredientDict[name] += quantity;
+                    }
+                    else
+                    {
+                        ingredientDict[name] = quantity;
+                    }
+                }
+            }
+
+            // Convert the dictionary to a list of DTOs for the response
+            var result = ingredientDict.Select(kvp => new AggregateIngredientDTO
+            {
+                Name = kvp.Key,
+                Quantity = kvp.Value
+            }).ToList();
+
+            return Ok(result);
         }
 
 

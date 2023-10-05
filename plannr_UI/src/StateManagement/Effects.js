@@ -17,6 +17,14 @@ export const fetchAllIngredients = createAsyncThunk(
   }
 );
 
+export const fetchAggregateIngredients = createAsyncThunk(
+  "recipe/fetchAggregateIngredients",
+  async (recipeIds) => {
+    const res = await PlannrApiService.getAggregateIngredients(recipeIds);
+    return res.data;
+  }
+);
+
 export const fetchAllCuisine = createAsyncThunk(
   "recipe/fetchAllCuisine",
   async () => {

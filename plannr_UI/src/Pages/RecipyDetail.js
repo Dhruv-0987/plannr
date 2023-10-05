@@ -123,7 +123,7 @@ function RecipyDetail({ props }) {
         <div className="w-11/12 md:w-3/4 lg:w-3/4 mt-6 flex flex-col md:flex-row gap-x-2">
           <div className="instructions w-full md:w-3/4 p-4 bg-gray-50 rounded-md shadow-md">
             <p className="text-3xl text-brand-light-green p-1 text-left">
-              Instructions To Make
+              Instructions
             </p>
             <ol>
               {recipeDetails.instructions.map((instruction, index) => (
@@ -133,38 +133,52 @@ function RecipyDetail({ props }) {
               ))}
             </ol>
           </div>
-
-          <div className="ratings w-full md:w-1/4 bg-green-50 rounded-md shadow-md mt-6 md:mt-0">
-            <p className="text-3xl text-brand-light-green p-1 text-left m-4">
-              Nutritional Value
+          <div className="instructions w-full md:w-1/4 p-4 bg-green-50 rounded-md shadow-md">
+            <p className="text-3xl text-brand-light-green p-1 text-left">
+              Ingredients
             </p>
-
-            <p className="p-1 text-left m-4 flex gap-x-2">
-              <p className="font-semibold">Energy:</p> {recipeDetails.energy}
-            </p>
-
-            <p className="p-1 text-left m-4 flex gap-x-2">
-              <p className="font-semibold">Protein:</p> {recipeDetails.protein}
-            </p>
-
-            <p className="p-1 text-left m-4 flex gap-x-2">
-              <p className="font-semibold">Carbohydrates:</p>{" "}
-              {recipeDetails.carbohydrates}
-            </p>
-
-            <p className="p-1 text-left m-4 flex gap-x-2">
-              <p className="font-semibold">Fats:</p> {recipeDetails.totalFats}
-            </p>
+            <ol>
+              {recipeDetails.ingredients.map((instruction, index) => (
+                <li key={index} className="py-1 my-2 text-left text-xl">
+                  {index + 1}. {instruction}
+                </li>
+              ))}
+            </ol>
           </div>
         </div>
       )}
 
       {reviews && (
-        <div className="m-6 bg-gray-50 rounded-md shadow-md w-11/12 md:w-3/4">
-          <p className="font-lato text-3xl text-brand-light-green p-4">
-            Reviews & Ratings
-          </p>
-          <Comments comments={reviews} />
+        <div className="m-6  rounded-md shadow-md w-11/12 md:w-3/4 flex gap-x-2">
+          <div className="w-3/4 text-center bg-gray-50">
+            <p className="font-lato text-center w-full text-3xl text-brand-light-green p-4 ">
+              Reviews & Ratings
+            </p>
+            <Comments comments={reviews} />
+          </div>
+
+          {recipeDetails && <div className="ratings w-full md:w-1/4 bg-green-50 rounded-md shadow-md mt-6 md:mt-0">
+            <p className="text-3xl text-brand-light-green p-1 text-left m-4">
+              Nutritional Value
+            </p>
+
+            <p className="p-1 text-left m-4 flex gap-x-2">
+              <p className="font-semibold">Energy:</p> {recipeDetails.energy} kCal
+            </p>
+
+            <p className="p-1 text-left m-4 flex gap-x-2">
+              <p className="font-semibold">Protein:</p> {recipeDetails.protein} g
+            </p>
+
+            <p className="p-1 text-left m-4 flex gap-x-2">
+              <p className="font-semibold">Carbohydrates:</p>{" "} 
+              {recipeDetails.carbohydrates} g
+            </p>
+
+            <p className="p-1 text-left m-4 flex gap-x-2">
+              <p className="font-semibold">Fats:</p> {recipeDetails.totalFats} g
+            </p>
+          </div>}
         </div>
       )}
     </div>

@@ -159,7 +159,7 @@ function RecipeInput() {
       <div className="flex flex-col items-center space-y-8">
         <div className="numberofpeople m-2 p-4 flex justify-center space-x-20 align-middle items-center w-full">
           <p className="text-xl flex-shrink-0 w-1/2 text-center">
-            Your weekly budget
+            Your weekly budget:
           </p>
           <div className="flex w-1/2">
             {possibleBudget.map((budget) => (
@@ -187,7 +187,7 @@ function RecipeInput() {
 
         <div className="numberofpeople m-2 p-4 flex justify-center space-x-20 align-middle items-center w-full">
           <p className="text-xl flex-shrink-0 w-1/2 text-center">
-            Number of People the recipe is for
+            Minimum servings per recipe:
           </p>
           <div className="flex w-1/2">
             {possibleNumberOfPeople.map((people) => (
@@ -216,7 +216,7 @@ function RecipeInput() {
         {showAdvancedFilters && (
           <div className="ingredients m-2 p-4 flex justify-center space-x-20 align-middle items-center w-full">
             <p className="text-xl flex-shrink-0 w-1/2 text-center">
-              Ingredients you have
+              Ingredients you have:
             </p>
             <div className="flex w-1/2">
               <Select
@@ -253,7 +253,7 @@ function RecipeInput() {
         {showAdvancedFilters && (
           <div className="types m-2 p-4 flex justify-center space-x-20 align-middle items-center w-full">
             <p className="text-xl flex-shrink-0 w-1/2 text-center">
-              Types of Recipes
+              Types of Recipes:
             </p>
             <div className="flex w-1/2">
               <Select
@@ -273,7 +273,7 @@ function RecipeInput() {
             {selectedTypes.map((type) => (
               <span
                 key={type}
-                className="inline-flex items-center bg-brand-green text-white rounded-full px-3 py-1 text-sm mr-2 mb-2" 
+                className="inline-flex items-center bg-brand-green text-white rounded-full px-3 py-1 text-sm mr-2 mb-2"
               >
                 {type}
                 <button
@@ -288,7 +288,9 @@ function RecipeInput() {
         )}
 
         <div className="cuisine">
-          <p className="font-playfair text-xl"> What kind of cuisine would you like?
+          <p className="font-playfair text-xl">
+            {" "}
+            What kind of cuisine would you like?
           </p>
           <div className="flex flex-wrap gap-4 m-4">
             {displayedCuisines.map((cuisine) => (
@@ -311,7 +313,7 @@ function RecipeInput() {
           onClick={handleRecipeRecommendation}
           className="mt-6 px-6 py-2 bg-brand-green text-white rounded-lg shadow-md hover:bg-brand-green-darker transition-transform transform duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-brand-green-lighter active:bg-brand-green-dark active:scale-95"
         >
-          Get Recipe Recommendation
+          Get Recipe Recommendations
         </button>
 
         <div

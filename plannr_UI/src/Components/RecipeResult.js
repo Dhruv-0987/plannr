@@ -17,45 +17,55 @@ function RecipeResult() {
 
   return (
     <div className="w-3/4 border-white rounded-md shadow-md p-6">
-      <p className="reciperesult text-center text-3xl font-playfair text-brand-green">
-        Here are your Recipe Recommendations!
-      </p>
+      {recipes.length === 0 ? (
+        // Display this content if there are no recipes
+        <p className="reciperesult text-center text-3xl font-playfair text-red-400">Oops! No recipes available for your requirements</p>
+      ) : (
+        // Display this content if there are recipes
+        <>
+          <p className="reciperesult text-center text-3xl font-playfair text-brand-green">
+            Here are your Recipe Recommendations!
+          </p>
 
-      <div className="flex flex-col justify-center align-middle items-center">
-        {recipes.slice(startIndex, endIndex).map((recipe, idx) => (
-          <RecipeTile key={recipe.id} recipe={recipe} idx={idx}/>
-        ))}
-      </div>
+          <div className="flex flex-col justify-center align-middle items-center">
+            {recipes.slice(startIndex, endIndex).map((recipe, idx) => (
+              <RecipeTile key={recipe.id} recipe={recipe} idx={idx} />
+            ))}
+          </div>
 
-      <div className="flex justify-evenly gap-x-40 p-3">
-        <div className="mt-4 flex justify-center">
-          {Array.from({
-            length: Math.ceil(recipes.length / ITEMS_PER_PAGE),
-          }).map((_, index) => (
+          <div className="flex justify-evenly gap-x-40 p-3">
+            <div className="mt-4 flex justify-center">
+              {Array.from({
+                length: Math.ceil(recipes.length / ITEMS_PER_PAGE),
+              }).map((_, index) => (
+                <button
+                  key={index}
+                  className={`mx-1 px-3 py-1 border rounded-md ${
+                    currentPage === index + 1
+                      ? "bg-brand-green text-white"
+                      : "bg-gray-200"
+                  }`}
+                  onClick={() => setCurrentPage(index + 1)}
+                >
+                  {index + 1}
+                </button>
+              ))}
+            </div>
+
             <button
-              key={index}
-              className={`mx-1 px-3 py-1 border rounded-md ${
-                currentPage === index + 1
-                  ? "bg-brand-green text-white"
-                  : "bg-gray-200"
-              }`}
-              onClick={() => setCurrentPage(index + 1)}
+              className="p-3 bg-brand-green text-white rounded-lg shadow-md hover:bg-brand-green-darker transition-transform 
+          transform duration-300 ease-in-out  focus:ring-2 focus:ring-brand-green-lighter 
+          active:bg-brand-green-dark active:scale-95"
+              onClick={() => {
+                navigate("/groceries");
+              }}
             >
-              {index + 1}
+              Generate Grocery List
+              <ArrowForwardIosIcon style={{ marginLeft: "8px" }} />
             </button>
-          ))}
-        </div>
-
-        <button
-          className="p-3 bg-brand-green text-white rounded-lg shadow-md hover:bg-brand-green-darker transition-transform 
-        transform duration-300 ease-in-out  focus:ring-2 focus:ring-brand-green-lighter 
-        active:bg-brand-green-dark active:scale-95"
-        onClick={()=>{navigate('/groceries')}}
-        >
-          Generate Grocery List
-          <ArrowForwardIosIcon style={{ marginLeft: "8px" }} />
-        </button>
-      </div>
+          </div>
+        </>
+      )}
     </div>
   );
 }

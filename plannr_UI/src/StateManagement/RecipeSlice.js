@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
+  fetchAggregateIngredients,
   fetchAllCuisine,
   fetchAllIngredients,
   fetchAllRecipes,
@@ -15,6 +16,8 @@ const initialState = {
   recommendedRecipies: [],
   totalRecommendedRecipes: null,
   allRecipes: [],
+  aggregateIngredients: [],
+  isAggregateIngredientsLoaded: null,
   currentRecipeDetails: null,
   isCurrentRecipeDetailsLoaded: null,
   isIngredientsLoaded: null,
@@ -49,6 +52,13 @@ const recipeSlice = createSlice({
         state.allIngredients = action.payload;
         state.isIngredientsLoaded = true;
       })
+      .addCase(fetchAggregateIngredients.pending, (state) => {
+        state.isAggregateIngredientsLoaded = false;
+      })
+      .addCase(fetchAggregateIngredients.fulfilled, (state, action) => {
+        state.aggregateIngredients = action.payload;
+        state.isAggregateIngredientsLoaded = true;
+      })
       .addCase(fetchFilteredRecipes.pending, (state) => {
         state.isRecipesLoaded = false;
       })
@@ -75,6 +85,7 @@ const recipeSlice = createSlice({
 });
 
 export const selectAllIngredients = (state) => state.recipe.allIngredients;
+export const selectAggregateIngredients = (state) => state.recipe.aggregateIngredients;
 export const selectAllCuisines = (state) => state.recipe.allCuisines;
 export const selectFilteredRecipes = (state) =>
   state.recipe.recommendedRecipies;

@@ -22,9 +22,33 @@ const CustomOption = ({ innerProps, label, data }) => (
 
 function GeneratedGroceries({ recipes }) {
   const [selectedRecipe, setSelectedRecipe] = useState(null);
+  const aggregateIngredients = (recipes) => {
+    let ingredientDict = {};
+
+    recipes.forEach((recipe) => {
+      recipe.ingredients.forEach((ingredient) => {
+        const match = ingredient.match(/^(.*?)\s+(\d+)/);
+        if (match) {
+          let name = match[1].trim();
+          let quantity = parseFloat(match[2]);
+          if (ingredientDict[name]) {
+            ingredientDict[name] += quantity;
+          } else {
+            ingredientDict[name] = quantity;
+          }
+        }
+      });
+    });
+
+    return Object.entries(ingredientDict).map(
+      ([name, quantity]) => `${name} ${quantity}`
+    );
+  };
+
   const [filteredIngredients, setFilteredIngredients] = useState(
-    recipes.flatMap((recipe) => recipe.ingredients)
+    aggregateIngredients(recipes)
   );
+
   const [groceriesToEmail, setGroceriesToEmail] = useState(filteredIngredients);
   const [emailConfirmationMsg, setEmailConfirmationMsg] = useState(null);
   const [emailErrorMsg, setEmailErrorMsg] = useState(null);
@@ -92,7 +116,6 @@ function GeneratedGroceries({ recipes }) {
       {/* Grocery List (3 columns) */}
 
       <div className="col-span-3 h-[600px] pr-4 border-r">
-
         <p className="m-2 text-brand-green text-left text-lg">
           *Select the ingredient you already have to omit it from the emailed
           list for Shopping.

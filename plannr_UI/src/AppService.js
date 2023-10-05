@@ -24,6 +24,13 @@ const PlannrApiService = {
     );
   },
 
+  async getAggregateIngredients(recipeIds) {
+    return await axios.post(
+      `${process.env.REACT_APP_PLANNR_BASE_URL}/api/recipe/GetAggregatedIngredients`,
+      recipeIds
+    );
+  },
+
   async getAllTypes() {
     return await axios.get(
       `${process.env.REACT_APP_PLANNR_BASE_URL}/api/recipe/allRecipeTypes`

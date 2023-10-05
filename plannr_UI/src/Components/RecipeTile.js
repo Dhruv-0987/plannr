@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import Rating from "@mui/material/Rating";
 function RecipeTile({ recipe, idx }) {
   const [showMoreIngredients, setShowMoreIngredients] = useState(false);
   const [showInstructions, setShowInstructions] = useState(false);
@@ -29,22 +29,41 @@ function RecipeTile({ recipe, idx }) {
         <img
           src={recipe.imageUrl}
           alt={recipe.recipeTitle}
-          className="h-[200px] max-w-40 w-80 rounded-md"
+          className="max-w-40 h-60 w-80 rounded-md"
         />
         <div className="flex flex-col space-y-8">
           <h2 className="text-3xl font-lato p-2 text-brand-green">
             {recipe.recipeTitle}
           </h2>
 
-          <div className="flex justify-center gap-x-10 text-xl text-center">
+          <div className="flex justify-evenly text-xl text-center">
             <span>Cuisine: {recipe.cuisine}</span>
             <span>{recipe.servings} servings</span>
             <span>${recipe.cost.toFixed(2)}</span>
           </div>
 
-          <div className="flex justify-center m-6 cursor-pointer"
-          onClick={()=>{navigate(`/recipedetail/${recipe.id}`)}}>
-            <p className="text-xl underline hover:text-green-700">Show recipe details</p>
+          <div>
+            <p className="p-1 font-platfair text-xl">Average Rating</p>
+            <div className="mb-2 flex justify-center">
+              <Rating
+                name="average-rating"
+                value={recipe.averageRating}
+                precision={0.25}
+                readOnly
+                style={{ color: "green" }}
+              />
+              <span className="ml-2">{recipe.averageRating}</span>
+            </div>
+          </div>
+          <div
+            className="flex justify-center m-6 cursor-pointer"
+            onClick={() => {
+              navigate(`/recipedetail/${recipe.id}`);
+            }}
+          >
+            <p className="text-xl underline hover:text-green-700">
+              Show recipe details
+            </p>
           </div>
         </div>
       </div>

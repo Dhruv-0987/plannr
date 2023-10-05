@@ -22,7 +22,7 @@ function Recipy() {
       <div className="flex items-center align-middle justify-center m-10">
         <RecipeInput />
       </div>
-
+      
       {isRecipesLoaded && (
         <div className="flex items-center align-middle justify-center m-10">
           <RecipeResult />
