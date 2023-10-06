@@ -72,6 +72,12 @@ jobs:
           name: .net-app
           path: dotnet
 
+      - name: Download frontend artifact from build job
+        uses: actions/download-artifact@v2.1.1
+        with:
+          name: frontend
+          path: frontend
+
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
@@ -80,14 +86,7 @@ jobs:
           slot-name: "Production"
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_57FEF72484AE43F28CB73E25C56B6D4E }}
           package: dotnet
-  
  
-      - name: Download frontend artifact from build job
-        uses: actions/download-artifact@v2.1.1
-        with:
-          name: frontend
-          path: frontend
-
       - name: Azure Static Web Apps Deploy
         uses: Azure/static-web-apps-deploy@v1
         with:
