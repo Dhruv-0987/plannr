@@ -30,7 +30,7 @@ function Carousal() {
             p-6 rounded-lg  "
           >
             <p className="text-6xl text-brand-green italic font-playfair">
-              Tailored Healthy grocery list just for you
+              A Tailored Healthy grocery list, designed by you
             </p>
             <h2 className=" text-3xl tracking-wider m-6 mt-10 font-pacifico  text-brand-green font-lato">
               M Y L L L
