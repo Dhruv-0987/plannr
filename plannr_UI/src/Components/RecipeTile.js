@@ -1,30 +1,24 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Rating from "@mui/material/Rating";
-function RecipeTile({ recipe, idx }) {
-  const [showMoreIngredients, setShowMoreIngredients] = useState(false);
-  const [showInstructions, setShowInstructions] = useState(false);
-  const [opacity, setOpacity] = useState(0);
+import { CheckBox } from "@mui/icons-material";
+
+function RecipeTile({ recipe, idx, omitRecipe }) {
+  const [omitted, setOmitted] = useState(false);
   const navigate = useNavigate();
 
-  const handleToggleInstructions = () => {
-    if (showInstructions) {
-      setOpacity(0);
-      setTimeout(() => {
-        setShowInstructions(false);
-      }, 300); // Corresponds to the transition duration
-    } else {
-      setShowInstructions(true);
-      setOpacity(100);
-    }
+  const handleCheckboxChange = () => {
+    setOmitted(!omitted);
+    omitRecipe(recipe.id);
   };
 
   return (
     <div className="p-4 w-3/4">
+      
       <div
         className={`grid grid-cols-2 p-6 border rounded-md shadow-md space-x-4 justify-evenly 
-                  ${idx % 2 == 0 ? `bg-gray-100` : `bg-white`}
-                  transform transition-transform duration-300 hover:-translate-y-2 hover:scale-105 cursor-pointer`}
+                    ${idx % 2 === 0 ? "bg-gray-100" : "bg-white"}
+                    transform transition-transform duration-300 hover:-translate-y-2 hover:scale-105 cursor-pointer`}
       >
         <img
           src={recipe.imageUrl}

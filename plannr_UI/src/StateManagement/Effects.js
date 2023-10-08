@@ -49,7 +49,7 @@ export const fetchFilteredRecipes = createAsyncThunk(
       numberOfPeople: familySize, // renamed familySize to numberOfPeople
       cuisines,
       ingredients,
-      types
+      types,
     });
     return res.data;
   }

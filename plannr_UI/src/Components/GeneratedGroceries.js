@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import EmailIcon from "@mui/icons-material/Email";
 import Checkbox from "@mui/material/Checkbox";
-import { green } from "@mui/material/colors";
+import { green, grey } from "@mui/material/colors";
+import TextField from "@mui/material/TextField";
 import PlannrApiService from "../AppService";
+import { toast } from "react-toastify";
 
 const CustomOption = ({ innerProps, label, data }) => (
   <div
@@ -22,6 +24,7 @@ const CustomOption = ({ innerProps, label, data }) => (
 
 function GeneratedGroceries({ recipes }) {
   const [selectedRecipe, setSelectedRecipe] = useState(null);
+
   const aggregateIngredients = (recipes) => {
     let ingredientDict = {};
 
@@ -49,10 +52,11 @@ function GeneratedGroceries({ recipes }) {
     aggregateIngredients(recipes)
   );
 
-  const [groceriesToEmail, setGroceriesToEmail] = useState(filteredIngredients);
+  const [openEmailInput, setOpenEmailInput] = useState(false);
+  const [groceriesToEmail, setGroceriesToEmail] = useState([]);
   const [emailConfirmationMsg, setEmailConfirmationMsg] = useState(null);
   const [emailErrorMsg, setEmailErrorMsg] = useState(null);
-  const [reciverEmail, serReciverEmail] = useState("dhruvmathurssw.com.au");
+  const [reciverEmail, setReciverEmail] = useState("");
 
   const options = recipes.map((recipe) => ({
     value: recipe.id,
@@ -89,21 +93,45 @@ function GeneratedGroceries({ recipes }) {
 
   const handleCheckboxChange = (ingredient) => {
     if (groceriesToEmail.includes(ingredient)) {
+      // If the ingredient already exists in the list, remove it
       setGroceriesToEmail((prev) => prev.filter((item) => item !== ingredient));
     } else {
+      // Otherwise, add the checked ingredient to the list
       setGroceriesToEmail((prev) => [...prev, ingredient]);
     }
   };
 
+  const handleEmailChange = (e) => {
+    const value = e.target.value;
+    setReciverEmail(value);
+
+    // Basic email validation
+    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+    if (!emailRegex.test(value)) {
+      setEmailErrorMsg("Invalid email format");
+    } else {
+      setEmailErrorMsg("");
+    }
+  };
+
   const handleSendEmail = () => {
-    PlannrApiService.sendGroceryListEmail(reciverEmail, groceriesToEmail)
+    if(emailErrorMsg){
+      toast.error("Email format not proper please enter again")
+      return
+    }
+    const emailGroceriesList = filteredIngredients.filter(
+      (ingredient) => !groceriesToEmail.includes(ingredient)
+    );
+    PlannrApiService.sendGroceryListEmail(
+      reciverEmail,
+      "Here are you groceries for the week",
+      emailGroceriesList
+    )
       .then((res) => {
         if (res.status === 200) {
-          setEmailConfirmationMsg("Email Sent Succesfully");
-          setEmailErrorMsg(null);
+          toast.success("Email Sent Succesfully");
         } else {
-          setEmailConfirmationMsg("Email Could Not be send Try Again");
-          setEmailErrorMsg(null);
+          toast.error("Email Could Not be send Try Again");
         }
       })
       .catch((err) => {
@@ -143,12 +171,13 @@ function GeneratedGroceries({ recipes }) {
               </span>
               <Checkbox
                 color="default"
-                inputProps={{ "aria-label": "select ingredient" }}
+                checked={groceriesToEmail.includes(ingredient)}
                 sx={{
                   "&.MuiCheckbox-colorDefault.Mui-checked": {
-                    color: green[500],
+                    color: "red", // Adjust the color to red when checked
                   },
                 }}
+                inputProps={{ "aria-label": "select ingredient" }}
                 onChange={() => handleCheckboxChange(ingredient)}
               />
             </div>
@@ -163,9 +192,20 @@ function GeneratedGroceries({ recipes }) {
         <div className="mb-4">Cuisines: {uniqueCuisines}</div>
         <div className="mb-4">Total Cost: AUD ${totalCost}</div>
 
+        <div className="m-4">
+          <TextField
+            label="Email"
+            variant="outlined"
+            value={reciverEmail}
+            onChange={handleEmailChange}
+            error={!!emailErrorMsg}
+            helperText={emailErrorMsg}
+          />
+        </div>
+
         <div className="flex justify-center mt-4">
           <button
-            className="flex items-center px-6 py-2 bg-brand-green text-white rounded"
+            className="transition-transform transform scale-100 hover:scale-95 active:scale-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-green flex items-center px-6 py-2 bg-brand-green text-white rounded"
             onClick={handleSendEmail}
           >
             <EmailIcon className="mr-2" />

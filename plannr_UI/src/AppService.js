@@ -72,14 +72,15 @@ const PlannrApiService = {
     );
   },
 
-  async sendGroceryListEmail(email, groceryList) {
+  async sendGroceryListEmail(to, subject, groceries) {
     const reqBody = {
-      email: email,
-      groceryList: groceryList,
+      to: to,
+      subject: subject,
+      groceries: groceries
     };
 
     return await axios.post(
-      `${process.env.REACT_APP_PLANNR_BASE_URL}/api/recipe/send-email`,
+      `${process.env.REACT_APP_PLANNR_BASE_URL}/api/Email/send`,
       reqBody
     );
   },

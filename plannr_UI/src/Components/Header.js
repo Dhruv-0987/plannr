@@ -14,14 +14,14 @@ import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import { useNavigate } from "react-router-dom";
 
-const pages = ['GROCERY', 'RECIPES', 'COMMUNITY'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const pages = ["GROCERY", "RECIPES", "COMMUNITY", "ABOUT"];
+const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 function Header() {
-  const logoImage = require('./websitelogo.jpeg')
+  const logoImage = require("./websitelogo.jpeg");
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -32,16 +32,21 @@ function Header() {
 
   const handleCloseNavMenu = (page) => {
     switch (page) {
-      case 'HOME':
+      case "HOME":
         // Code to execute when the currentPage is 'HOME'
         break;
-      case 'GROCERY':
-        navigate('/suggestions')
+      case "GROCERY":
+        navigate("/suggestions");
         // Code to execute when the currentPage is 'GROCERY RECOMMENDATION'
         break;
-      case 'RECIPES':
-        navigate('/recipy')
+      case "RECIPES":
+        navigate("/recipy");
         break;
+      case "COMMUNITY":
+        navigate("/community");
+
+      case "ABOUT":
+        navigate("/about")
       default:
         // Code to execute when the currentPage doesn't match any of the cases
         break;
@@ -55,10 +60,10 @@ function Header() {
 
   return (
     <div className="header shadow-md">
-      <AppBar position="static" sx={{ backgroundColor: 'white'}}>
-        <Container maxWidth="xl" sx={{padding: '10px'}} className="space-x-8">
+      <AppBar position="static" sx={{ backgroundColor: "white" }}>
+        <Container maxWidth="xl" sx={{ padding: "10px" }} className="space-x-8">
           <Toolbar disableGutters>
-          <img src={logoImage} width="100" height="50"/>
+            <img src={logoImage} width="100" height="50" />
             <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
             <Typography
               variant="h6"
@@ -77,7 +82,7 @@ function Header() {
             >
               PLANNR
             </Typography>
-           
+
             <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
               <IconButton
                 size="large"
@@ -87,7 +92,7 @@ function Header() {
                 onClick={handleOpenNavMenu}
                 color="dark-green"
               >
-                <MenuIcon sx={{backgroundColor: "dark-green"}}/>
+                <MenuIcon sx={{ backgroundColor: "dark-green" }} />
               </IconButton>
               <Menu
                 id="menu-appbar"
@@ -105,8 +110,7 @@ function Header() {
                 onClose={handleCloseNavMenu}
                 sx={{
                   display: { xs: "block", md: "none" },
-                  color: '#373D20',
-                
+                  color: "#373D20",
                 }}
                 className="font-lato"
               >
@@ -118,8 +122,6 @@ function Header() {
               </Menu>
             </Box>
 
-
-            
             <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
             <Typography
               variant="h5"
@@ -139,19 +141,22 @@ function Header() {
             >
               PLANNR
             </Typography>
-            <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}  className="font-lato">
+            <Box
+              sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}
+              className="font-lato"
+            >
               {pages.map((page) => (
                 <Button
                   key={page}
-                  onClick={()=>{handleCloseNavMenu(page)}}
+                  onClick={() => {
+                    handleCloseNavMenu(page);
+                  }}
                   sx={{ my: 2, display: "block", color: "#373D20" }}
                 >
                   {page}
                 </Button>
               ))}
             </Box>
-
-            
           </Toolbar>
         </Container>
       </AppBar>

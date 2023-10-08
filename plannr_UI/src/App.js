@@ -14,6 +14,8 @@ import Groceries from "./Pages/Groceries";
 import RecipyDetail from "./Pages/RecipyDetail";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
+import Community from "./Pages/Community";
+import About from "./Pages/About";
 
 function App() {
   return (
@@ -30,6 +32,8 @@ function App() {
             path="/recipedetail/:recipeId"
             Component={RecipyDetail}
           />
+          <Route exact path="/community" Component={Community} />
+          <Route exact path="/about" Component={About} />
         </Routes>
       </Router>
       <ToastContainer
