@@ -26,6 +26,10 @@ namespace plannr.DatabaseContext
                 .WithMany(rr => rr.Reviews)
                 .HasForeignKey(r => r.RecipeId);
 
+
+            modelBuilder.Entity<Event>()
+                .Property(p => p.Id)
+                .ValueGeneratedOnAdd();
         }
 
         public DbSet<Product> Products { get; set; }
@@ -35,6 +39,8 @@ namespace plannr.DatabaseContext
         public DbSet<Recipe> Recipes { get; set; }
 
         public DbSet<Review> Reviews { get; set; }
+
+        public DbSet<Event> Events { get; set; }
     }
 }
 

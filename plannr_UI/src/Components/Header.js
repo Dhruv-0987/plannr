@@ -44,7 +44,7 @@ function Header() {
         break;
       case "COMMUNITY":
         navigate("/community");
-
+        break;
       case "ABOUT":
         navigate("/about")
       default:
