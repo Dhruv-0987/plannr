@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import { Button, Modal, TextField, Typography, Box } from "@mui/material";
-import Datetime from "react-datetime";
-import "react-datetime/css/react-datetime.css";
 import { Calendar } from "react-date-range";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
