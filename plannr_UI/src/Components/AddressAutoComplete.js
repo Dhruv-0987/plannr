@@ -38,7 +38,7 @@ function AddressAutocomplete() {
     };
 
     return (
-        <div>
+        <div className='bg-white'>
             <TextField 
                 fullWidth
                 label="Address"

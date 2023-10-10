@@ -1,5 +1,11 @@
 {
   "dependencies": {
-    "@react-google-maps/api": "^2.19.2"
+    "@mui/lab": "^5.0.0-alpha.147",
+    "@react-google-maps/api": "^2.19.2",
+    "date-fns": "^2.30.0",
+    "moment": "^2.29.4",
+    "react-date-range": "^1.4.0",
+    "react-datetime": "^3.2.0",
+    "react-datetime-picker": "^5.5.2"
   }
 }

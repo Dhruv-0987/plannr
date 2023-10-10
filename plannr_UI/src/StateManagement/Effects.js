@@ -86,3 +86,11 @@ export const fetchAverageRatingByRecipeId = createAsyncThunk(
     return res.data;
   }
 );
+
+export const fetchAllEvents = createAsyncThunk(
+  "event/fetchAllEvents",
+  async () => {
+    const res = await PlannrApiService.getAllEvents();
+    return res.data;
+  }
+);

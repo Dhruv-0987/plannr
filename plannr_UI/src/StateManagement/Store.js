@@ -3,12 +3,14 @@ import { configureStore } from '@reduxjs/toolkit';
 import productReducer from './ProductSlice';
 import RecipeReducer from './RecipeSlice';
 import ReviewReducer from './ReviewSlice';
+import EventReducer from './EventSlice';
 
 const store = configureStore({
   reducer: {
     product: productReducer,
     recipe: RecipeReducer,
-    review: ReviewReducer
+    review: ReviewReducer,
+    event: EventReducer
   }
 });
 

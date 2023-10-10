@@ -76,7 +76,7 @@ const PlannrApiService = {
     const reqBody = {
       to: to,
       subject: subject,
-      groceries: groceries
+      groceries: groceries,
     };
 
     return await axios.post(
@@ -107,6 +107,26 @@ const PlannrApiService = {
   async getAverageRatingByRecipeId(recipeId) {
     return await axios.get(
       `${process.env.REACT_APP_PLANNR_BASE_URL}/api/Review/${recipeId}/average-rating`
+    );
+  },
+
+  async createEvent(title, desc, address, date, time) {
+    const createEventDto = {
+      Title: title,
+      Desc: desc,
+      Address: address,
+      Date: date.toISOString().split("T")[0], // Extracts the date part in "YYYY-MM-DD" format
+      Time: time,
+    };
+    return await axios.post(
+      `${process.env.REACT_APP_PLANNR_BASE_URL}/api/Events/AddEvent`,
+      createEventDto
+    );
+  },
+
+  async getAllEvents() {
+    return await axios.get(
+      `${process.env.REACT_APP_PLANNR_BASE_URL}/api/Events/GetAllEvents`
     );
   },
 };

@@ -12,7 +12,7 @@ function Home() {
           
           <div className="text-center flex flex-col gap-y-10">
             <p className="text-xl md:text-4xl font-playfair leading-relaxed italic">
-            Choose health and taste for you family, all within your budget and without the stress of planning.
+            Choose health and taste for your family, all within your budget and without the stress of planning.
             </p>
 
             <p className="text-xl md:text-4xl font-playfair leading-relaxed">

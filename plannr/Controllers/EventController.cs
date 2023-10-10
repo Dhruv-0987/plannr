@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using plannr.DatabaseContext;
 using plannr.DomainModels;
+using plannr.DTOs;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -22,7 +23,7 @@ namespace plannr.Controllers
         }
 
         // GET: api/Events
-        [HttpGet]
+        [HttpGet("GetAllEvents")]
         public ActionResult<IEnumerable<Event>> GetEvents()
         {
             return _context.Events.ToList();
@@ -41,14 +42,29 @@ namespace plannr.Controllers
             return evt;
         }
 
-        // POST: api/Events
-        [HttpPost]
-        public ActionResult<Event> PostEvent(Event evt)
+        [HttpPost("AddEvent")]
+        public ActionResult<Event> AddEvent(EventCreateDTO eventDto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
+
+            // Convert Date and Time from DTO to a DateTime
+            DateTime eventDateTime;
+            if (!DateTime.TryParse($"{eventDto.Date} {eventDto.Time}", out eventDateTime))
+            {
+                return BadRequest("Invalid date and/or time format.");
+            }
+
+            // Create a new event object from the DTO
+            Event evt = new Event
+            {
+                Title = eventDto.Title,
+                Description = eventDto.Desc,
+                Place = eventDto.Address,
+                Time = eventDateTime  // This assumes your Event object has a DateTime property named EventDateTime
+            };
 
             _context.Events.Add(evt);
             _context.SaveChanges();
