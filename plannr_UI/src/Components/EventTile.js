@@ -4,7 +4,7 @@ function EventTile({ event }) {
     const [formattedDate, formattedTime] = event?.time.split('T');
   return (
     <div>
-      <div className="bg-green-800 rounded-xl p-5 shadow-lg max-w-sm mx-auto text-white min-w-full min-h-full ">
+      <div className="bg-green-50 rounded-xl p-5 shadow-lg max-w-sm mx-auto text-brand-green min-w-full min-h-full ">
         <h2 className="text-2xl font-bold mb-4">{event.title}</h2>
         <p className="mb-4">{event.description}</p>
         <div className="flex items-center mb-4">

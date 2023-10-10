@@ -30,7 +30,7 @@ function Suggestions() {
   return (
     <div className="suggestions bg-white bg-cover bg-center bg-no-repeat bg-fixed h-screen m-0">
       <div className="flex space-y-8 w-full mx-auto h-full items-center justify-center space-x-4">
-        <div className="w-1/3 flex flex-col items-center justify-center align-middle h-full bg-brand-light-green">
+        <div className="w-1/3 flex flex-col items-center justify-center align-middle h-full bg-green-50">
           <div className="w-3/4 bg-white m-6 rounded-md">
             <SuggestionsInput />
           </div>
