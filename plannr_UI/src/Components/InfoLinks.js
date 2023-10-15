@@ -10,7 +10,7 @@ function InfoLinks() {
     },
     {
       title: 'Food and Nutrition',
-      link: '',
+      link: 'https://www.health.gov.au/topics/food-and-nutrition',
       imageUrl: 'https://andrea-digestive-clinic.com/wp-content/uploads/2022/07/diet-nutrition-1.jpg'
     },
     {

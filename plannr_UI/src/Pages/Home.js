@@ -27,9 +27,7 @@ function Home() {
         <NavTiles />
       </div>
 
-      <div className='mt-10'>
-        <InfoLinks/>
-      </div>
+
     </div>
   );
 }
