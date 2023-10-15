@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Rating from "@mui/material/Rating";
-import { CheckBox } from "@mui/icons-material";
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
 function RecipeTile({ recipe, idx, omitRecipe }) {
   const [omitted, setOmitted] = useState(false);
@@ -54,11 +55,12 @@ function RecipeTile({ recipe, idx, omitRecipe }) {
               <p className="p-1 font-platfair text-xl">Health Rating</p>
               <div className="mb-2 flex justify-center">
                 <Rating
-                    name="average-rating"
+                    name="heart-rating"
                     value={recipe.healthRating}
-                    precision={0.25}
+                    precision={0.5}
                     readOnly
-                    style={{ color: "green" }}
+                    icon={<FavoriteIcon fontSize="inherit" style={{ color: 'darkgreen' }} />}
+                    emptyIcon={<FavoriteBorderIcon fontSize="inherit" />}
                 />
                 <span className="ml-2">{recipe.healthRating}</span>
               </div>

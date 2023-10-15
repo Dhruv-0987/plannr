@@ -6,7 +6,7 @@ import {
   fetchRecipeById,
   fetchReviewsByRecipeId,
 } from "../StateManagement/Effects";
-import { useParams } from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import RatingModal from "../Components/RatingModal";
 import PlannrApiService from "../AppService";
 import { toast } from "react-toastify";
@@ -16,7 +16,10 @@ import {
 } from "../StateManagement/ReviewSlice";
 import Rating from "@mui/material/Rating";
 import Comments from "../Components/Comments";
-
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import IconButton from "@mui/material/IconButton";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 function RecipyDetail({ props }) {
   const { recipeId } = useParams();
   const dispatch = useDispatch();
@@ -24,7 +27,7 @@ function RecipyDetail({ props }) {
   const [openRatingModal, setOpenRatingModal] = useState(null);
   const averageRating = useSelector(selectAverageRatingByRecipe);
   const reviews = useSelector(selectReviewsByRecipe);
-
+  const navigate = useNavigate();
   useEffect(() => {
     dispatch(fetchRecipeById(recipeId));
     dispatch(fetchAverageRatingByRecipeId(recipeId));
@@ -52,7 +55,12 @@ function RecipyDetail({ props }) {
   };
 
   return (
-    <div className="flex flex-col align-middle items-center w-full gap-x-6">
+    <div className="flex flex-col align-middle items-center w-full gap-x-6 relative">
+      <div className="absolute top-4 left-4 z-30 bg-white rounded-full">
+        <IconButton onClick={() => {navigate('/recipy')}}>
+          <ArrowBackIcon className="text-brand-green" />
+        </IconButton>
+      </div>
       <RatingModal
         isOpen={openRatingModal}
         handleClose={handleClose}
@@ -112,11 +120,12 @@ function RecipyDetail({ props }) {
                       <p className="p-1 font-platfair text-xl">Health Rating</p>
                       <div className="mb-2 flex justify-center">
                         <Rating
-                            name="average-rating"
+                            name="heart-rating"
                             value={recipeDetails.healthRating}
-                            precision={0.25}
+                            precision={0.5}
                             readOnly
-                            style={{ color: "green" }}
+                            icon={<FavoriteIcon fontSize="inherit" style={{ color: 'darkgreen' }} />}
+                            emptyIcon={<FavoriteBorderIcon fontSize="inherit" />}
                         />
                         <span className="ml-2">{recipeDetails.healthRating}</span>
                       </div>
