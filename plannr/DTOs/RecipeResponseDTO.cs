@@ -15,6 +15,7 @@ namespace plannr.DTOs
         public string Cuisine { get; set; }
         public string Type { get; set; }
         public double AverageRating { get; set; }
+        public double HealthRating { get; set; }
         public List<string> Ingredients { get; set; }
         public List<string> Instructions { get; set; }
 

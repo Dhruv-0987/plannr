@@ -1,6 +1,7 @@
 import React from "react";
 import Carousal from "../Components/Carousal";
 import NavTiles from "../Components/NavTiles";
+import InfoLinks from "../Components/InfoLinks";
 
 function Home() {
   return (
@@ -24,6 +25,10 @@ function Home() {
 
       <div className="flex items-center justify-center md:relative">
         <NavTiles />
+      </div>
+
+      <div className='mt-10'>
+        <InfoLinks/>
       </div>
     </div>
   );

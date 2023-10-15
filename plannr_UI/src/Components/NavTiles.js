@@ -40,7 +40,7 @@ function NavTiles() {
           className="transform cursor-pointer hover:scale-105 transition-transform duration-300 h-full w-full flex flex-col 
         justify-between p-4 rounded shadow hover:shadow-xl bg-brand-green opacity-70"
           onClick={() => {
-            navigate("/suggestions");
+            navigate("/community");
           }}
         >
           <div className="text-white text-2xl font-semibold mb-2">
@@ -53,7 +53,7 @@ function NavTiles() {
           <button
             className="flex items-center justify-center px-5 py-2 bg-white rounded transition ease-in-out duration-300"
             onClick={() => {
-              navigate("/");
+              navigate("/community");
             }}
           >
             Upcoming Events

@@ -19,8 +19,7 @@ namespace plannr.DomainModels
         public double Cost { get; set; }
         public string Cuisine { get; set; }
         public string Type { get; set; }
-        
-
+        public double HealthRating { get; set; }
         public virtual ICollection<Review> Reviews { get; set; }
 
         [NotMapped]

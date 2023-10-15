@@ -84,6 +84,7 @@ namespace plannr.Controllers
                     Cuisine = recipe.Cuisine,
                     Type = recipe.Type,
                     AverageRating = avgRating,
+                    HealthRating = recipe.HealthRating,
                     Ingredients = recipe.Ingredients,  // Map Ingredients
                     Instructions = recipe.Instructions  // Map Instructions
                 };
@@ -129,6 +130,7 @@ namespace plannr.Controllers
                         Cuisine = recipe.Cuisine,
                         Type = recipe.Type,
                         AverageRating = avgRating,
+                        HealthRating = recipe.HealthRating,
                         Ingredients = recipe.Ingredients,  // Map Ingredients
                         Instructions = recipe.Instructions  // Map Instructions
                     });
@@ -207,6 +209,7 @@ namespace plannr.Controllers
                         Cuisine = recipe.Cuisine,
                         Type = recipe.Type,
                         AverageRating = avgRating,
+                        HealthRating = recipe.HealthRating,
                         Ingredients = recipe.Ingredients,  
                         Instructions = recipe.Instructions
                     });

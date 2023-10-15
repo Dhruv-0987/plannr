@@ -20,6 +20,7 @@ namespace plannr.utilities
             Map(m => m.Cuisine).Name("Cuisine");
             Map(m => m.Type).Name("MealType");
             Map(m => m.ImageUrl).Name("Image_url");
+            Map(m => m.HealthRating).Name("Health Rating");
 
             // For the Ingredients and Instructions columns, since they're in JSON format in the CSV, 
             // we'll just map them to their corresponding JSON properties in the Recipe class

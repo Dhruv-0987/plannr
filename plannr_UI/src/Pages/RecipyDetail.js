@@ -94,16 +94,33 @@ function RecipyDetail({ props }) {
                 </div>
 
                 <div>
-                  <p className="p-1 font-platfair text-xl">Average Rating</p>
-                  <div className="mb-2 flex justify-center">
-                    <Rating
-                      name="average-rating"
-                      value={averageRating}
-                      precision={0.25}
-                      readOnly
-                      style={{ color: "green" }}
-                    />
-                    <span className="ml-2">{averageRating}</span>
+                  <div className='flex flex-wrap justify-center gap-x-10 items-center align-middle'>
+                    <div>
+                      <p className="p-1 font-platfair text-xl">Average Rating</p>
+                      <div className="mb-2 flex justify-center">
+                        <Rating
+                            name="average-rating"
+                            value={recipeDetails.averageRating}
+                            precision={0.25}
+                            readOnly
+                            style={{ color: "green" }}
+                        />
+                        <span className="ml-2">{recipeDetails.averageRating}</span>
+                      </div>
+                    </div>
+                    <div>
+                      <p className="p-1 font-platfair text-xl">Health Rating</p>
+                      <div className="mb-2 flex justify-center">
+                        <Rating
+                            name="average-rating"
+                            value={recipeDetails.healthRating}
+                            precision={0.25}
+                            readOnly
+                            style={{ color: "green" }}
+                        />
+                        <span className="ml-2">{recipeDetails.healthRating}</span>
+                      </div>
+                    </div>
                   </div>
 
                   <button

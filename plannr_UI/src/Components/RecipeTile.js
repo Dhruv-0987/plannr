@@ -36,17 +36,32 @@ function RecipeTile({ recipe, idx, omitRecipe }) {
             <span>${recipe.cost.toFixed(2)}</span>
           </div>
 
-          <div>
-            <p className="p-1 font-platfair text-xl">Average Rating</p>
-            <div className="mb-2 flex justify-center">
-              <Rating
-                name="average-rating"
-                value={recipe.averageRating}
-                precision={0.25}
-                readOnly
-                style={{ color: "green" }}
-              />
-              <span className="ml-2">{recipe.averageRating}</span>
+          <div className='flex flex-wrap justify-center gap-x-10 items-center align-middle'>
+            <div>
+              <p className="p-1 font-platfair text-xl">Average Rating</p>
+              <div className="mb-2 flex justify-center">
+                <Rating
+                  name="average-rating"
+                  value={recipe.averageRating}
+                  precision={0.25}
+                  readOnly
+                  style={{ color: "green" }}
+                />
+                <span className="ml-2">{recipe.averageRating}</span>
+              </div>
+            </div>
+            <div>
+              <p className="p-1 font-platfair text-xl">Health Rating</p>
+              <div className="mb-2 flex justify-center">
+                <Rating
+                    name="average-rating"
+                    value={recipe.healthRating}
+                    precision={0.25}
+                    readOnly
+                    style={{ color: "green" }}
+                />
+                <span className="ml-2">{recipe.healthRating}</span>
+              </div>
             </div>
           </div>
           <div

@@ -14,6 +14,7 @@ function RecipeResult() {
   const [recipesToOmit, setRecipesToOmit] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [isSorted, setIsSorted] = useState(false);
+  const [isSortedByHealtRating, setIsSortedByHealthRating] = useState(false);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const endIndex = startIndex + ITEMS_PER_PAGE;
 
@@ -29,6 +30,23 @@ function RecipeResult() {
       );
       setRecipes(sorted);
       setIsSorted(true);
+      setIsSortedByHealthRating(false);
+    }
+  };
+
+  const handleByHealthRatingFilter = () => {
+    if (isSortedByHealtRating) {
+      // If currently sorted, revert back to original order
+      setRecipes(originalRecipes);
+      setIsSortedByHealthRating(false);
+    } else {
+      // If not sorted, sort by averageRating
+      const sorted = [...originalRecipes].sort(
+          (a, b) => b.healthRating - a.healthRating
+      );
+      setRecipes(sorted);
+      setIsSorted(false);
+      setIsSortedByHealthRating(true);
     }
   };
 
@@ -54,14 +72,26 @@ function RecipeResult() {
             Here are your Recipe Recommendations!
           </p>
 
-          <div className="flex w-3/4 items-center justify-center">
-            <button
-              onClick={handleRatingFilter}
-              className="mt-6 px-6 py-2 bg-brand-light-green text-white rounded-lg shadow-md hover:bg-brand-green-darker transition-transform transform duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-brand-green-lighter active:bg-brand-green-dark active:scale-95"
-            >
-              {isSorted ? "Revert to Original Order" : "Sort by Rating"}
-            </button>
-          </div>
+          <div className='flex justify-center w-3/4 p-2 gap-x-6'>
+
+              <button
+                  onClick={handleRatingFilter}
+                  className="mt-6 px-6 py-2 bg-brand-light-green text-white rounded-lg shadow-md hover:bg-brand-green-darker transition-transform transform duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-brand-green-lighter active:bg-brand-green-dark active:scale-95"
+              >
+                {isSorted ? "Revert to Original Order" : "Sort by Rating"}
+              </button>
+
+
+
+              <button
+                  onClick={handleByHealthRatingFilter}
+                  className="mt-6 px-6 py-2 bg-brand-light-green text-white rounded-lg shadow-md hover:bg-brand-green-darker transition-transform transform duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-brand-green-lighter active:bg-brand-green-dark active:scale-95"
+              >
+                {isSortedByHealtRating ? "Revert to Original Order" : "Sort by Nutritional Rating"}
+              </button>
+            </div>
+
+
 
           <div className="flex flex-col justify-center align-middle items-center">
             {recipes.slice(startIndex, endIndex).map((recipe, idx) => (

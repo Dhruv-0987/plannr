@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using plannr.DatabaseContext;
 
@@ -11,9 +12,11 @@ using plannr.DatabaseContext;
 namespace plannr.Migrations
 {
     [DbContext(typeof(PlannrDbContext))]
-    partial class PlannrDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231015023416_added-healtrating-for-recipe")]
+    partial class addedhealtratingforrecipe
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
