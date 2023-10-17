@@ -108,12 +108,12 @@ function RecipyDetail({ props }) {
                       <div className="mb-2 flex justify-center">
                         <Rating
                             name="average-rating"
-                            value={recipeDetails.averageRating}
+                            value={averageRating}
                             precision={0.25}
                             readOnly
                             style={{ color: "green" }}
                         />
-                        <span className="ml-2">{recipeDetails.averageRating}</span>
+                        <span className="ml-2">{averageRating}</span>
                       </div>
                     </div>
                     <div>
