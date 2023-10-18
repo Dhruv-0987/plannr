@@ -161,7 +161,7 @@ function RecipeInput() {
           <p className="text-xl flex-shrink-0 w-1/2 text-center">
             Your weekly budget:
           </p>
-          <div className="flex w-1/2">
+          <div className="md:flex w-1/2">
             {possibleBudget.map((budget) => (
               <div
                 key={budget}
@@ -189,7 +189,7 @@ function RecipeInput() {
           <p className="text-xl flex-shrink-0 w-1/2 text-center">
             Minimum servings per recipe:
           </p>
-          <div className="flex w-1/2">
+          <div className="md:flex w-1/2">
             {possibleNumberOfPeople.map((people) => (
               <div
                 key={people}

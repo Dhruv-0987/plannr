@@ -17,7 +17,7 @@ function RecipeTile({ recipe, idx, omitRecipe }) {
     <div className="p-4 w-3/4">
       
       <div
-        className={`grid grid-cols-2 p-6 border rounded-md shadow-md space-x-4 justify-evenly 
+        className={`grid md:grid-cols-2 grid-cols-1 p-6 border rounded-md shadow-md space-x-4 justify-evenly 
                     ${idx % 2 === 0 ? "bg-gray-100" : "bg-white"}
                     transform transition-transform duration-300 hover:-translate-y-2 hover:scale-105 cursor-pointer`}
       >
@@ -27,11 +27,11 @@ function RecipeTile({ recipe, idx, omitRecipe }) {
           className="max-w-40 h-60 w-80 rounded-md"
         />
         <div className="flex flex-col space-y-8">
-          <h2 className="text-3xl font-lato p-2 text-brand-green">
+          <h2 className="md:text-3xl text-xl flex flex-wrap font-lato p-2 text-brand-green">
             {recipe.recipeTitle}
           </h2>
 
-          <div className="flex justify-evenly text-xl text-center">
+          <div className="flex flex-wrap justify-evenly text-xl text-center">
             <span>Cuisine: {recipe.cuisine}</span>
             <span>{recipe.servings} servings</span>
             <span>${recipe.cost.toFixed(2)}</span>
